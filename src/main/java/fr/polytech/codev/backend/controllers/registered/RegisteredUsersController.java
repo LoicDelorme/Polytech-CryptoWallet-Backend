@@ -2,16 +2,16 @@ package fr.polytech.codev.backend.controllers.registered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
 import fr.polytech.codev.backend.entities.*;
-import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
-import fr.polytech.codev.backend.exceptions.InvalidTokenException;
-import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
-import fr.polytech.codev.backend.exceptions.UnknownEntityException;
+import fr.polytech.codev.backend.exceptions.*;
+import fr.polytech.codev.backend.forms.UserForm;
 import fr.polytech.codev.backend.responses.SuccessResponse;
 import fr.polytech.codev.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @CrossOrigin
 @RestController
@@ -46,6 +46,50 @@ public class RegisteredUsersController extends AbstractController {
         }
 
         return ResponseEntity.ok().body(serialize(new SuccessResponse(user)));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity update(@PathVariable String tokenValue, @PathVariable int id, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, id);
+
+        final User user = this.userSqlDaoServices.get(id);
+        if (user == null) {
+            throw new UnknownEntityException();
+        }
+
+        final UserForm userForm = deserialize(data, UserForm.class);
+        user.setLastname(userForm.getLastname());
+        user.setFirstname(userForm.getFirstname());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setLastUpdate(LocalDateTime.now());
+        user.setLastActivity(LocalDateTime.now());
+
+        validate(user);
+
+        this.userSqlDaoServices.update(user);
+        return ResponseEntity.ok().body(serialize(new SuccessResponse(user)));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity delete(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, id);
+
+        final User user = this.userSqlDaoServices.get(id);
+        if (user == null) {
+            throw new UnknownEntityException();
+        }
+
+        user.getFavorites().clear();
+        user.getWallets().clear();
+        user.getAlerts().clear();
+        user.getSettings().clear();
+        user.getTokens().clear();
+        user.getLogs().clear();
+        this.userSqlDaoServices.update(user);
+
+        this.userSqlDaoServices.delete(user);
+        return ResponseEntity.ok().body(serialize(new SuccessResponse()));
     }
 
     @RequestMapping(value = "/{id}/favorites", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

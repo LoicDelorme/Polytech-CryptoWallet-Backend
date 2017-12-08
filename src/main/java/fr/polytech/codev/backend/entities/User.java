@@ -68,22 +68,22 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     private List<Cryptocurrency> favorites = new ArrayList<Cryptocurrency>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Wallet> wallets = new ArrayList<Wallet>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Alert> alerts = new ArrayList<Alert>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Setting> settings = new ArrayList<Setting>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Token> tokens = new ArrayList<Token>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Log> logs = new ArrayList<Log>();
 }

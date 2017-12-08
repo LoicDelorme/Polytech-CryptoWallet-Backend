@@ -45,6 +45,6 @@ public class Wallet implements fr.polytech.codev.backend.entities.Entity {
     private User user;
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wallet", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wallet", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<Asset> assets = new ArrayList<Asset>();
 }
