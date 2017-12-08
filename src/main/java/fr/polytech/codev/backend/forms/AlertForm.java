@@ -19,5 +19,5 @@ public class AlertForm {
 
     private int cryptocurrencyId;
 
-    private int alertTypeId;
+    private int typeId;
 }
