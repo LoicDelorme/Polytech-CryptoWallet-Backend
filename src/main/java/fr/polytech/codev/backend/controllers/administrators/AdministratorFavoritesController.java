@@ -45,7 +45,7 @@ public class AdministratorFavoritesController extends AbstractController {
         return ResponseEntity.ok().body(serialize(new SuccessResponse(favorites)));
     }
 
-    @RequestMapping(value = "/{userId}/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "user/{userId}/cryptocurrency{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity get(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsAdministrator(tokenValue);
 
@@ -107,7 +107,7 @@ public class AdministratorFavoritesController extends AbstractController {
         return ResponseEntity.ok().body(serialize(new SuccessResponse(favorite)));
     }
 
-    @RequestMapping(value = "/{userId}/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "user/{userId}/cryptocurrency{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity delete(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsAdministrator(tokenValue);
 

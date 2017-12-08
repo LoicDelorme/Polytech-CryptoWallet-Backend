@@ -45,7 +45,7 @@ public class AdministratorAssetsController extends AbstractController {
         return ResponseEntity.ok().body(serialize(new SuccessResponse(assets)));
     }
 
-    @RequestMapping(value = "/{walletId}/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity get(@PathVariable String tokenValue, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsAdministrator(tokenValue);
 
@@ -109,7 +109,7 @@ public class AdministratorAssetsController extends AbstractController {
         return ResponseEntity.ok().body(serialize(new SuccessResponse(asset)));
     }
 
-    @RequestMapping(value = "/{walletId}/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity update(@PathVariable String tokenValue, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsAdministrator(tokenValue);
 
@@ -132,7 +132,7 @@ public class AdministratorAssetsController extends AbstractController {
         return ResponseEntity.ok().body(serialize(new SuccessResponse(asset)));
     }
 
-    @RequestMapping(value = "/{walletId}/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity delete(@PathVariable String tokenValue, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsAdministrator(tokenValue);
 
