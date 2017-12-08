@@ -19,6 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +101,7 @@ public abstract class AbstractController {
     }
 
     private Token getToken(String tokenValue) throws InvalidTokenException {
-        final Map<String, String> parameters = new HashMap<String, String>();
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
         parameters.put("value", tokenValue);
 
         final List<Token> tokens = this.tokenSqlDaoServices.filter(parameters);

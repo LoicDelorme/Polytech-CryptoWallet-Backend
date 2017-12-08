@@ -44,7 +44,7 @@ public abstract class AbstractSqlDaoServices<T> implements DaoServices<T> {
     }
 
     @Override
-    public List<T> filter(Map<String, String> parameters) {
+    public List<T> filter(Map<String, Serializable> parameters) {
         final Session session = getSession();
 
         session.beginTransaction();

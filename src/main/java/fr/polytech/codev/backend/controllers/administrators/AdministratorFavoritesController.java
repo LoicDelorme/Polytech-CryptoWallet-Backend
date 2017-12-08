@@ -14,7 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -56,6 +59,36 @@ public class AdministratorFavoritesController extends AbstractController {
         }
 
         return ResponseEntity.ok().body(serialize(new SuccessResponse(favorite)));
+    }
+
+    @RequestMapping(value = "user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getByUser(@PathVariable String tokenValue, @PathVariable int userId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsAdministrator(tokenValue);
+
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+        parameters.put("user", this.userSqlDaoServices.get(userId));
+
+        final List<Favorite> favorites = this.favoriteSqlDaoServices.filter(parameters);
+        if (favorites == null) {
+            throw new UnknownEntityException();
+        }
+
+        return ResponseEntity.ok().body(serialize(new SuccessResponse(favorites)));
+    }
+
+    @RequestMapping(value = "cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getByCryptocurrency(@PathVariable String tokenValue, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsAdministrator(tokenValue);
+
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+        parameters.put("cryptocurrency", this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+
+        final List<Favorite> favorites = this.favoriteSqlDaoServices.filter(parameters);
+        if (favorites == null) {
+            throw new UnknownEntityException();
+        }
+
+        return ResponseEntity.ok().body(serialize(new SuccessResponse(favorites)));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

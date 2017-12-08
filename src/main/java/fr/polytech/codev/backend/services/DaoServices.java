@@ -10,7 +10,7 @@ public interface DaoServices<T> {
 
     public List<T> getAll();
 
-    public List<T> filter(Map<String, String> parameters);
+    public List<T> filter(Map<String, Serializable> parameters);
 
     public int count();
 
