@@ -80,14 +80,6 @@ public class RegisteredUsersController extends AbstractController {
             throw new UnknownEntityException();
         }
 
-        user.getFavorites().clear();
-        user.getWallets().clear();
-        user.getAlerts().clear();
-        user.getSettings().clear();
-        user.getTokens().clear();
-        user.getLogs().clear();
-        this.userSqlDaoServices.update(user);
-
         this.userSqlDaoServices.delete(user);
         return ResponseEntity.ok().body(serialize(new SuccessResponse()));
     }

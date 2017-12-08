@@ -63,7 +63,7 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     private LocalDateTime lastActivity;
 
     @JsonbTransient
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorites", joinColumns = { @JoinColumn(name = "user") }, inverseJoinColumns = { @JoinColumn(name = "cryptocurrency") })
     private List<Cryptocurrency> favorites = new ArrayList<Cryptocurrency>();
 
