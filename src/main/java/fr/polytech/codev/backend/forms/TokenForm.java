@@ -9,10 +9,6 @@ public class TokenForm {
 
     private int id;
 
-    private String value;
-
-    private LocalDateTime beginDate;
-
     private LocalDateTime endDate;
 
     private int userId;
