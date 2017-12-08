@@ -32,4 +32,16 @@ public class RegisteredUsersController extends AbstractController {
 
         return ResponseEntity.ok().body(serialize(new SuccessResponse(user)));
     }
+
+    @RequestMapping(value = "/{id}/wallets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity wallets(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, id);
+
+        final User user = this.userSqlDaoServices.get(id);
+        if (user == null) {
+            throw new UnknownEntityException();
+        }
+
+        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getWallets())));
+    }
 }
