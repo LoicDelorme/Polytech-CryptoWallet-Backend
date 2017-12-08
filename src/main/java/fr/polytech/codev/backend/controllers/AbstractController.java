@@ -71,6 +71,12 @@ public abstract class AbstractController {
         }
     }
 
+    public void assertIsUser(String tokenValue) throws InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        final Token token = getToken(tokenValue);
+        assertTokenIsValid(token);
+        assertUserIsEnabled(token);
+    }
+
     public void assertUserIsUser(String tokenValue, int requestedId) throws InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
