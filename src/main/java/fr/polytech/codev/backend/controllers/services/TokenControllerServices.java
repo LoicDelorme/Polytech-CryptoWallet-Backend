@@ -8,8 +8,11 @@ import fr.polytech.codev.backend.services.TokenSqlDaoServices;
 import fr.polytech.codev.backend.services.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class TokenControllerServices extends AbstractControllerServices {
@@ -36,6 +39,18 @@ public class TokenControllerServices extends AbstractControllerServices {
         }
 
         return token;
+    }
+
+    public List<Token> getByValue(String value) throws UnknownEntityException {
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+        parameters.put("value", value);
+
+        final List<Token> tokens = this.tokenSqlDaoServices.filter(parameters);
+        if (tokens == null) {
+            throw new UnknownEntityException();
+        }
+
+        return tokens;
     }
 
     public Token insert(TokenForm tokenForm) throws InvalidEntityException {

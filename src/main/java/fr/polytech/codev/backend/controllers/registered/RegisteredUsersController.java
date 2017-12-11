@@ -1,17 +1,14 @@
 package fr.polytech.codev.backend.controllers.registered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
+import fr.polytech.codev.backend.controllers.services.*;
 import fr.polytech.codev.backend.entities.*;
 import fr.polytech.codev.backend.exceptions.*;
 import fr.polytech.codev.backend.forms.UserForm;
-import fr.polytech.codev.backend.responses.SuccessResponse;
-import fr.polytech.codev.backend.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @CrossOrigin
 @RestController
@@ -19,245 +16,141 @@ import java.time.LocalDateTime;
 public class RegisteredUsersController extends AbstractController {
 
     @Autowired
-    private UserSqlDaoServices userSqlDaoServices;
+    private UserControllerServices userControllerServices;
 
     @Autowired
-    private WalletSqlDaoServices walletSqlDaoServices;
+    private WalletControllerServices walletControllerServices;
 
     @Autowired
-    private AlertSqlDaoServices alertSqlDaoServices;
+    private AlertControllerServices alertControllerServices;
 
     @Autowired
-    private SettingSqlDaoServices settingSqlDaoServices;
+    private SettingControllerServices settingControllerServices;
 
     @Autowired
-    private TokenSqlDaoServices tokenSqlDaoServices;
+    private TokenControllerServices tokenControllerServices;
 
     @Autowired
-    private LogSqlDaoServices logSqlDaoServices;
+    private LogControllerServices logControllerServices;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity get(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user)));
+        return serializeSuccessResponse(this.userControllerServices.get(id));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity update(@PathVariable String tokenValue, @PathVariable int id, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
 
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
         final UserForm userForm = deserialize(data, UserForm.class);
-        user.setLastname(userForm.getLastname());
-        user.setFirstname(userForm.getFirstname());
-        user.setEmail(userForm.getEmail());
-        user.setPassword(userForm.getPassword());
-        user.setLastUpdate(LocalDateTime.now());
-        user.setLastActivity(LocalDateTime.now());
+        userForm.setAdministrator(false);
+        userForm.setEnabled(true);
 
-        validate(user);
-
-        this.userSqlDaoServices.update(user);
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user)));
+        return serializeSuccessResponse(this.userControllerServices.update(id, userForm));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity delete(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.userSqlDaoServices.delete(user);
-        return ResponseEntity.ok().body(serialize(new SuccessResponse()));
+        this.userControllerServices.delete(id);
+        return serializeSuccessResponse();
     }
 
     @RequestMapping(value = "/{id}/favorites", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity favorites(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getFavorites())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getFavorites());
     }
 
     @RequestMapping(value = "/{id}/wallets", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity wallets(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getWallets())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getWallets());
     }
 
     @RequestMapping(value = "/{id}/alerts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity alerts(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getAlerts())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getAlerts());
     }
 
     @RequestMapping(value = "/{id}/settings", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity settings(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getSettings())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getSettings());
     }
 
     @RequestMapping(value = "/{id}/tokens", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity tokens(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getTokens())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getTokens());
     }
 
     @RequestMapping(value = "/{id}/logs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity logs(@PathVariable String tokenValue, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
-
-        final User user = this.userSqlDaoServices.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(user.getLogs())));
+        return serializeSuccessResponse(this.userControllerServices.get(id).getLogs());
     }
 
     @RequestMapping(value = "/{userId}/wallet/{walletId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity wallet(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
-        final User user = this.userSqlDaoServices.get(userId);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
+        final User user = this.userControllerServices.get(userId);
+        final Wallet wallet = this.walletControllerServices.get(walletId);
+        assertEquals(user.getId(), wallet.getUser().getId());
 
-        final Wallet wallet = this.walletSqlDaoServices.get(walletId);
-        if (wallet == null) {
-            throw new UnknownEntityException();
-        }
-
-        if (userId != wallet.getUser().getId()) {
-            throw new UnauthorizedUserException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(wallet)));
+        return serializeSuccessResponse(wallet);
     }
 
     @RequestMapping(value = "/{userId}/alert/{alertId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity alert(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int alertId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
-        final User user = this.userSqlDaoServices.get(userId);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
+        final User user = this.userControllerServices.get(userId);
+        final Alert alert = this.alertControllerServices.get(alertId);
+        assertEquals(user.getId(), alert.getUser().getId());
 
-        final Alert alert = this.alertSqlDaoServices.get(alertId);
-        if (alert == null) {
-            throw new UnknownEntityException();
-        }
-
-        if (userId != alert.getUser().getId()) {
-            throw new UnauthorizedUserException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(alert)));
+        return serializeSuccessResponse(alert);
     }
 
     @RequestMapping(value = "/{userId}/setting/{settingId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity setting(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int settingId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
-        final User user = this.userSqlDaoServices.get(userId);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
+        final User user = this.userControllerServices.get(userId);
+        final Setting setting = this.settingControllerServices.get(settingId);
+        assertEquals(user.getId(), setting.getUser().getId());
 
-        final Setting setting = this.settingSqlDaoServices.get(settingId);
-        if (setting == null) {
-            throw new UnknownEntityException();
-        }
-
-        if (userId != setting.getUser().getId()) {
-            throw new UnauthorizedUserException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(setting)));
+        return serializeSuccessResponse(setting);
     }
 
     @RequestMapping(value = "/{userId}/token/{tokenId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity token(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int tokenId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
-        final User user = this.userSqlDaoServices.get(userId);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
+        final User user = this.userControllerServices.get(userId);
+        final Token token = this.tokenControllerServices.get(tokenId);
+        assertEquals(user.getId(), token.getUser().getId());
 
-        final Token token = this.tokenSqlDaoServices.get(tokenId);
-        if (token == null) {
-            throw new UnknownEntityException();
-        }
-
-        if (userId != token.getUser().getId()) {
-            throw new UnauthorizedUserException();
-        }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(token)));
+        return serializeSuccessResponse(token);
     }
 
     @RequestMapping(value = "/{userId}/log/{logId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity log(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int logId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
-        final User user = this.userSqlDaoServices.get(userId);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
+        final User user = this.userControllerServices.get(userId);
+        final Log log = this.logControllerServices.get(logId);
+        assertEquals(user.getId(), log.getUser().getId());
 
-        final Log log = this.logSqlDaoServices.get(logId);
-        if (log == null) {
-            throw new UnknownEntityException();
-        }
+        return serializeSuccessResponse(log);
+    }
 
-        if (userId != log.getUser().getId()) {
+    private void assertEquals(int userId, int entityUserId) throws UnauthorizedUserException {
+        if (userId != entityUserId) {
             throw new UnauthorizedUserException();
         }
-
-        return ResponseEntity.ok().body(serialize(new SuccessResponse(log)));
     }
 }
