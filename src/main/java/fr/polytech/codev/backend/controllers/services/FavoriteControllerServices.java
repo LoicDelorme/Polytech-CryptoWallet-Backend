@@ -72,10 +72,10 @@ public class FavoriteControllerServices extends AbstractControllerServices {
         return favorites;
     }
 
-    public Favorite insert(FavoriteForm favoriteForm) throws InvalidEntityException {
+    public Favorite insert(int userId, int cryptocurrencyId, FavoriteForm favoriteForm) throws InvalidEntityException {
         final Favorite favorite = new Favorite();
-        favorite.setUser(this.userSqlDaoServices.get(favoriteForm.getUserId()));
-        favorite.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(favoriteForm.getCryptocurrencyId()));
+        favorite.setUser(this.userSqlDaoServices.get(userId));
+        favorite.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
 
         validate(favorite);
         this.favoriteSqlDaoServices.insert(favorite);

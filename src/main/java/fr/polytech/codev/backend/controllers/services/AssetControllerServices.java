@@ -9,7 +9,6 @@ import fr.polytech.codev.backend.services.AssetSqlDaoServices;
 import fr.polytech.codev.backend.services.CryptocurrencySqlDaoServices;
 import fr.polytech.codev.backend.services.WalletSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -49,7 +48,7 @@ public class AssetControllerServices extends AbstractControllerServices {
         return asset;
     }
 
-    public List<Asset> getByWallet(@PathVariable String tokenValue, @PathVariable int walletId) throws UnknownEntityException {
+    public List<Asset> getByWallet(int walletId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
         parameters.put("wallet", this.walletSqlDaoServices.get(walletId));
 
@@ -61,7 +60,7 @@ public class AssetControllerServices extends AbstractControllerServices {
         return assets;
     }
 
-    public List<Asset> getByCryptocurrency(@PathVariable String tokenValue, @PathVariable int cryptocurrencyId) throws UnknownEntityException {
+    public List<Asset> getByCryptocurrency(int cryptocurrencyId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
         parameters.put("cryptocurrency", this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
 
@@ -73,10 +72,10 @@ public class AssetControllerServices extends AbstractControllerServices {
         return assets;
     }
 
-    public Asset insert(AssetForm assetForm) throws InvalidEntityException {
+    public Asset insert(int walletId, int cryptocurrencyId, AssetForm assetForm) throws InvalidEntityException {
         final Asset asset = new Asset();
-        asset.setWallet(this.walletSqlDaoServices.get(assetForm.getWalletId()));
-        asset.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(assetForm.getCryptocurrencyId()));
+        asset.setWallet(this.walletSqlDaoServices.get(walletId));
+        asset.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
         asset.setAmount(assetForm.getAmount());
         asset.setPurchasePrice(assetForm.getPurchasePrice());
 

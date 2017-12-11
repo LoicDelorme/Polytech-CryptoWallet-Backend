@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 @Data
 public class AlertForm {
 
-    private int id;
-
     private BigDecimal threshold;
 
     private boolean isOneShot;

@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class UserForm {
 
-    private int id;
-
     private String lastname;
 
     private String firstname;

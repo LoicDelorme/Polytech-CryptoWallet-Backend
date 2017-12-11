@@ -5,7 +5,5 @@ import lombok.Data;
 @Data
 public class AlertTypeForm {
 
-    private int id;
-
     private String name;
 }

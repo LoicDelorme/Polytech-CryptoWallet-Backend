@@ -7,10 +7,6 @@ import java.math.BigDecimal;
 @Data
 public class AssetForm {
 
-    private int walletId;
-
-    private int cryptocurrencyId;
-
     private BigDecimal amount;
 
     private BigDecimal purchasePrice;
