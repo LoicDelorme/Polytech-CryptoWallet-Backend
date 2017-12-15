@@ -209,6 +209,48 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse(this.logControllerServices.insert(deserialize(data, LogForm.class)));
     }
 
+    @RequestMapping(value = "/{userId}/wallet/{walletId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateWallet(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.walletControllerServices.update(walletId, deserialize(data, WalletForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateAsset(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+
+        final User user = this.userControllerServices.get(userId);
+        final Wallet wallet = this.walletControllerServices.get(walletId);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencyControllerServices.get(cryptocurrencyId);
+        assertEquals(user.getId(), wallet.getUser().getId());
+
+        return serializeSuccessResponse(this.assetControllerServices.update(wallet.getId(), cryptocurrency.getId(), deserialize(data, AssetForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/alert/{alertId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateAlert(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int alertId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.alertControllerServices.update(alertId, deserialize(data, AlertForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/setting/{settingId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateSetting(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int settingId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.settingControllerServices.update(settingId, deserialize(data, SettingForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/token/{tokenId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateToken(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int tokenId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.tokenControllerServices.update(tokenId, deserialize(data, TokenForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/log/{logId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateLog(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int logId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.logControllerServices.update(logId, deserialize(data, LogForm.class)));
+    }
+
     @RequestMapping(value = "/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity deleteFavorite(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
