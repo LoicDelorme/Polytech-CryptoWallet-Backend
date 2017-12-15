@@ -4,7 +4,7 @@ import fr.polytech.codev.backend.controllers.AbstractController;
 import fr.polytech.codev.backend.controllers.services.*;
 import fr.polytech.codev.backend.entities.*;
 import fr.polytech.codev.backend.exceptions.*;
-import fr.polytech.codev.backend.forms.UserForm;
+import fr.polytech.codev.backend.forms.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -155,6 +155,58 @@ public class RegisteredUsersController extends AbstractController {
         assertEquals(user.getId(), log.getUser().getId());
 
         return serializeSuccessResponse(log);
+    }
+
+    @RequestMapping(value = "/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addFavorite(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+
+        final User user = this.userControllerServices.get(userId);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencyControllerServices.get(cryptocurrencyId);
+
+        return serializeSuccessResponse(this.favoriteControllerServices.insert(user.getId(), cryptocurrency.getId(), new FavoriteForm()));
+    }
+
+    @RequestMapping(value = "/{userId}/wallet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addWallet(@PathVariable String tokenValue, @PathVariable int userId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.walletControllerServices.insert(deserialize(data, WalletForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addAsset(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+
+        final User user = this.userControllerServices.get(userId);
+        final Wallet wallet = this.walletControllerServices.get(walletId);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencyControllerServices.get(cryptocurrencyId);
+        assertEquals(user.getId(), wallet.getUser().getId());
+
+        return serializeSuccessResponse(this.assetControllerServices.insert(wallet.getId(), cryptocurrency.getId(), deserialize(data, AssetForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/alert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addAlert(@PathVariable String tokenValue, @PathVariable int userId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.alertControllerServices.insert(deserialize(data, AlertForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/setting", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addSetting(@PathVariable String tokenValue, @PathVariable int userId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.settingControllerServices.insert(deserialize(data, SettingForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/token", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addToken(@PathVariable String tokenValue, @PathVariable int userId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.tokenControllerServices.insert(deserialize(data, TokenForm.class)));
+    }
+
+    @RequestMapping(value = "/{userId}/log", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity addLog(@PathVariable String tokenValue, @PathVariable int userId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(tokenValue, userId);
+        return serializeSuccessResponse(this.logControllerServices.insert(deserialize(data, LogForm.class)));
     }
 
     @RequestMapping(value = "/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
