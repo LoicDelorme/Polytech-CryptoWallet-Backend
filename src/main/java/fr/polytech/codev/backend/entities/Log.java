@@ -2,6 +2,7 @@ package fr.polytech.codev.backend.entities;
 
 import lombok.Data;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -26,11 +27,13 @@ public class Log implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "ip_address")
     private String ipAddress;
 
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The creation date can't be null!")
     @PastOrPresent(message = "The creation date can't be in the future!")
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The last update can't be null!")
     @PastOrPresent(message = "The last update can't be in the future!")
     @Column(name = "last_update")
