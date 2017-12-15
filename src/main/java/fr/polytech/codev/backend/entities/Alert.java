@@ -2,6 +2,7 @@ package fr.polytech.codev.backend.entities;
 
 import lombok.Data;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -26,9 +27,11 @@ public class Alert implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "threshold")
     private BigDecimal threshold;
 
+    @JsonbProperty("isOneShot")
     @Column(name = "is_one_shot")
     private boolean isOneShot;
 
+    @JsonbProperty("isActive")
     @Column(name = "is_active")
     private boolean isActive;
 

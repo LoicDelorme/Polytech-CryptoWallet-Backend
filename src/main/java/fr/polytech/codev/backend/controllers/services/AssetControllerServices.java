@@ -96,7 +96,7 @@ public class AssetControllerServices extends AbstractControllerServices {
         }
 
         asset.setAmount(assetForm.getAmount());
-        asset.setPurchasePrice(asset.getPurchasePrice());
+        asset.setPurchasePrice(assetForm.getPurchasePrice());
 
         validate(asset);
         this.assetSqlDaoServices.update(asset);

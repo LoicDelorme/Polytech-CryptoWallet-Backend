@@ -52,9 +52,10 @@ public class RegisteredUsersController extends AbstractController {
     public ResponseEntity update(@PathVariable String tokenValue, @PathVariable int id, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, id);
 
+        final User user = this.userControllerServices.get(id);
         final UserForm userForm = deserialize(data, UserForm.class);
-        userForm.setAdministrator(false);
-        userForm.setEnabled(true);
+        userForm.setAdministrator(user.isAdministrator());
+        userForm.setEnabled(user.isEnabled());
 
         return serializeSuccessResponse(this.userControllerServices.update(id, userForm));
     }
@@ -157,7 +158,7 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse(log);
     }
 
-    @RequestMapping(value = "/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/{userId}/favorite/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity addFavorite(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
@@ -173,7 +174,7 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse(this.walletControllerServices.insert(deserialize(data, WalletForm.class)));
     }
 
-    @RequestMapping(value = "/{userId}/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/{userId}/asset/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity addAsset(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
@@ -182,7 +183,18 @@ public class RegisteredUsersController extends AbstractController {
         final Cryptocurrency cryptocurrency = this.cryptocurrencyControllerServices.get(cryptocurrencyId);
         assertEquals(user.getId(), wallet.getUser().getId());
 
-        return serializeSuccessResponse(this.assetControllerServices.insert(wallet.getId(), cryptocurrency.getId(), deserialize(data, AssetForm.class)));
+        try {
+            // If the specified asset already exists : just update it
+            final Asset asset = this.assetControllerServices.get(wallet.getId(), cryptocurrency.getId());
+            final AssetForm assetForm = deserialize(data, AssetForm.class);
+            assetForm.setAmount(asset.getAmount().add(assetForm.getAmount()));
+            assetForm.setPurchasePrice(asset.getPurchasePrice().add(assetForm.getPurchasePrice()));
+
+            return serializeSuccessResponse(this.assetControllerServices.update(wallet.getId(), cryptocurrency.getId(), assetForm));
+        } catch (UnknownEntityException e) {
+            // Else : just create it
+            return serializeSuccessResponse(this.assetControllerServices.insert(wallet.getId(), cryptocurrency.getId(), deserialize(data, AssetForm.class)));
+        }
     }
 
     @RequestMapping(value = "/{userId}/alert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -215,7 +227,7 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse(this.walletControllerServices.update(walletId, deserialize(data, WalletForm.class)));
     }
 
-    @RequestMapping(value = "/{userId}/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/{userId}/asset/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity updateAsset(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
@@ -251,7 +263,7 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse(this.logControllerServices.update(logId, deserialize(data, LogForm.class)));
     }
 
-    @RequestMapping(value = "/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/{userId}/favorite/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity deleteFavorite(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
@@ -274,7 +286,7 @@ public class RegisteredUsersController extends AbstractController {
         return serializeSuccessResponse();
     }
 
-    @RequestMapping(value = "/{userId}/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/{userId}/asset/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity deleteAsset(@PathVariable String tokenValue, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         assertUserIsUser(tokenValue, userId);
 
