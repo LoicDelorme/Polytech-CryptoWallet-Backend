@@ -1,9 +1,10 @@
 package fr.polytech.codev.backend.entities;
 
+import fr.polytech.codev.backend.adapters.UserAdapter;
 import lombok.Data;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.json.bind.annotation.JsonbTransient;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
@@ -39,7 +40,7 @@ public class Log implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @JsonbTransient
+    @JsonbTypeAdapter(UserAdapter.class)
     @NotNull(message = "The user can't be null!")
     @ManyToOne
     @JoinColumn(name = "user")

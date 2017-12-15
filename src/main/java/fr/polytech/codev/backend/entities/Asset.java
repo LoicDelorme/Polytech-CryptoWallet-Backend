@@ -1,9 +1,11 @@
 package fr.polytech.codev.backend.entities;
 
+import fr.polytech.codev.backend.adapters.CryptocurrencyAdapter;
+import fr.polytech.codev.backend.adapters.WalletAdapter;
 import fr.polytech.codev.backend.entities.pks.AssetPk;
 import lombok.Data;
 
-import javax.json.bind.annotation.JsonbTransient;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
@@ -16,12 +18,13 @@ import java.math.BigDecimal;
 @IdClass(AssetPk.class)
 public class Asset implements fr.polytech.codev.backend.entities.Entity {
 
-    @JsonbTransient
+    @JsonbTypeAdapter(WalletAdapter.class)
     @Id
     @ManyToOne
     @JoinColumn(name = "wallet")
     private Wallet wallet;
 
+    @JsonbTypeAdapter(CryptocurrencyAdapter.class)
     @Id
     @ManyToOne
     @JoinColumn(name = "cryptocurrency")
