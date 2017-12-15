@@ -72,6 +72,16 @@ public class UserControllerServices extends AbstractControllerServices {
         return user;
     }
 
+    public void updateLastActivity(int id) throws UnknownEntityException {
+        final User user = this.userSqlDaoServices.get(id);
+        if (user == null) {
+            throw new UnknownEntityException();
+        }
+
+        user.setLastActivity(LocalDateTime.now());
+        this.userSqlDaoServices.update(user);
+    }
+
     public void delete(int id) throws UnknownEntityException {
         final User user = this.userSqlDaoServices.get(id);
         if (user == null) {

@@ -1,6 +1,7 @@
 package fr.polytech.codev.backend.controllers;
 
 import fr.polytech.codev.backend.controllers.services.TokenControllerServices;
+import fr.polytech.codev.backend.controllers.services.UserControllerServices;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
@@ -32,6 +33,9 @@ public abstract class AbstractController {
 
     @Autowired
     private TokenControllerServices tokenControllerServices;
+
+    @Autowired
+    private UserControllerServices userControllerServices;
 
     protected void logInfo(String message) {
         logger.info(message);
@@ -80,6 +84,7 @@ public abstract class AbstractController {
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsUser(token, requestedId);
+        this.userControllerServices.updateLastActivity(token.getUser().getId());
     }
 
     public void assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
@@ -87,6 +92,7 @@ public abstract class AbstractController {
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsAdministrator(token);
+        this.userControllerServices.updateLastActivity(token.getUser().getId());
     }
 
     private Token getToken(String tokenValue) throws UnknownEntityException, InvalidTokenException {
