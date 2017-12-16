@@ -8,8 +8,11 @@ import fr.polytech.codev.backend.repositories.DaoRepository;
 import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserServices extends AbstractServices {
 
@@ -32,6 +35,19 @@ public class UserServices extends AbstractServices {
         }
 
         return user;
+    }
+
+    public User getByCredentials(String email, String password) throws UnknownEntityException {
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+        parameters.put("email", email);
+        parameters.put("password", password);
+
+        final List<User> users = this.userDaoRepository.filter(parameters);
+        if (users == null || users.size() != 1) {
+            throw new UnknownEntityException();
+        }
+
+        return users.get(0);
     }
 
     public User insert(UserForm userForm) throws InvalidEntityException {
