@@ -1,6 +1,8 @@
+.DS_Store
 .idea/*
 .mvn/*
 target/*
 *.iml
 mvnw
 mvnw.cmd
+data/mysql/*

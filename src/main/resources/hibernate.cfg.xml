@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://mysql-db-container:3306/CryptoWallet</property>
+        <property name="hibernate.connection.username">CryptoWalletUser</property>
+        <property name="hibernate.connection.password">CryptoWalletUserPassword</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+
+        <mapping class="fr.polytech.codev.backend.entities.Alert"/>
+        <mapping class="fr.polytech.codev.backend.entities.AlertType"/>
+        <mapping class="fr.polytech.codev.backend.entities.Asset"/>
+        <mapping class="fr.polytech.codev.backend.entities.Cryptocurrency"/>
+        <mapping class="fr.polytech.codev.backend.entities.Favorite"/>
+        <mapping class="fr.polytech.codev.backend.entities.Log"/>
+        <mapping class="fr.polytech.codev.backend.entities.Setting"/>
+        <mapping class="fr.polytech.codev.backend.entities.Token"/>
+        <mapping class="fr.polytech.codev.backend.entities.User"/>
+        <mapping class="fr.polytech.codev.backend.entities.Wallet"/>
+    </session-factory>
+</hibernate-configuration>
