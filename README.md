@@ -15,7 +15,7 @@ cd [YOUR WORKSPACE]
 git clone https://github.com/LoicDelorme/Polytech-CryptoWallet-Backend.git
 ```
 
-- Launch Docker container
+- Launch Docker containers
 ```
 cd Polytech-CryptoWallet-Backend/
 docker-compose up -d
