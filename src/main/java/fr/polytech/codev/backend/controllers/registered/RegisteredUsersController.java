@@ -4,7 +4,7 @@ import fr.polytech.codev.backend.controllers.AbstractController;
 import fr.polytech.codev.backend.entities.*;
 import fr.polytech.codev.backend.exceptions.*;
 import fr.polytech.codev.backend.forms.*;
-import fr.polytech.codev.backend.services.controllers.*;
+import fr.polytech.codev.backend.services.controllers.implementations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

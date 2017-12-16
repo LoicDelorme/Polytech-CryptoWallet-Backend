@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.controllers.registered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.services.controllers.AlertTypeControllerServices;
+import fr.polytech.codev.backend.services.controllers.implementations.AlertTypeControllerServices;
 import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
 import fr.polytech.codev.backend.exceptions.InvalidTokenException;
 import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
