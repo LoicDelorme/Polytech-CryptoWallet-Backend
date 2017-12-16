@@ -1,7 +1,5 @@
 package fr.polytech.codev.backend.controllers;
 
-import fr.polytech.codev.backend.services.impl.TokenServices;
-import fr.polytech.codev.backend.services.impl.UserServices;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
@@ -14,6 +12,8 @@ import fr.polytech.codev.backend.responses.FailureResponse;
 import fr.polytech.codev.backend.responses.SuccessResponse;
 import fr.polytech.codev.backend.serializers.AbstractStringSerializer;
 import fr.polytech.codev.backend.serializers.JsonStringSerializer;
+import fr.polytech.codev.backend.services.impl.TokenServices;
+import fr.polytech.codev.backend.services.impl.UserServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +77,7 @@ public abstract class AbstractController {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
+        this.userServices.updateLastActivity(token.getUser().getId());
     }
 
     public void assertUserIsUser(String tokenValue, int requestedId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
