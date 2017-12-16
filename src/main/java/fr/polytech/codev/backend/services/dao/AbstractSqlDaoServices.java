@@ -13,6 +13,10 @@ public abstract class AbstractSqlDaoServices<T> implements DaoServices<T> {
 
     public abstract Class<T> getEntityClass();
 
+    private Session getSession() {
+        return HibernateSession.getSession();
+    }
+
     @Override
     public T get(Serializable id) {
         final Session session = getSession();
@@ -24,10 +28,6 @@ public abstract class AbstractSqlDaoServices<T> implements DaoServices<T> {
         session.close();
 
         return entity;
-    }
-
-    private Session getSession() {
-        return HibernateSession.getSession();
     }
 
     @Override
