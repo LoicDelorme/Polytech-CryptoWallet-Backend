@@ -1,13 +1,13 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.Asset;
 import fr.polytech.codev.backend.entities.pks.AssetPk;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AssetForm;
-import fr.polytech.codev.backend.services.AssetSqlDaoServices;
-import fr.polytech.codev.backend.services.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.WalletSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.AssetSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.CryptocurrencySqlDaoServices;
+import fr.polytech.codev.backend.services.dao.WalletSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

@@ -1,11 +1,11 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.Wallet;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.WalletForm;
-import fr.polytech.codev.backend.services.UserSqlDaoServices;
-import fr.polytech.codev.backend.services.WalletSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.WalletSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

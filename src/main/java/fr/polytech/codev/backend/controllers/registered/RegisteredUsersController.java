@@ -1,10 +1,10 @@
 package fr.polytech.codev.backend.controllers.registered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.controllers.services.*;
 import fr.polytech.codev.backend.entities.*;
 import fr.polytech.codev.backend.exceptions.*;
 import fr.polytech.codev.backend.forms.*;
+import fr.polytech.codev.backend.services.controllers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,13 +1,13 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.Alert;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AlertForm;
-import fr.polytech.codev.backend.services.AlertSqlDaoServices;
-import fr.polytech.codev.backend.services.AlertTypeSqlDaoServices;
-import fr.polytech.codev.backend.services.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.AlertSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.AlertTypeSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.CryptocurrencySqlDaoServices;
+import fr.polytech.codev.backend.services.dao.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

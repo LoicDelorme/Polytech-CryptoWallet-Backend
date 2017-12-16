@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.controllers.administrators;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.controllers.services.AlertTypeControllerServices;
+import fr.polytech.codev.backend.services.controllers.AlertTypeControllerServices;
 import fr.polytech.codev.backend.exceptions.*;
 import fr.polytech.codev.backend.forms.AlertTypeForm;
 import org.springframework.beans.factory.annotation.Autowired;

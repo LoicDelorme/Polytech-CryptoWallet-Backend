@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.controllers;
 
-import fr.polytech.codev.backend.controllers.services.TokenControllerServices;
-import fr.polytech.codev.backend.controllers.services.UserControllerServices;
+import fr.polytech.codev.backend.services.controllers.TokenControllerServices;
+import fr.polytech.codev.backend.services.controllers.UserControllerServices;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;

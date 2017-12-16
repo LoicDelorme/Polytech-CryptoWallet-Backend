@@ -1,13 +1,13 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.Favorite;
 import fr.polytech.codev.backend.entities.pks.FavoritePk;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.FavoriteForm;
-import fr.polytech.codev.backend.services.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.FavoriteSqlDaoServices;
-import fr.polytech.codev.backend.services.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.CryptocurrencySqlDaoServices;
+import fr.polytech.codev.backend.services.dao.FavoriteSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

@@ -1,10 +1,10 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.AlertType;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AlertTypeForm;
-import fr.polytech.codev.backend.services.AlertTypeSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.AlertTypeSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
