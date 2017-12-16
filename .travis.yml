@@ -8,7 +8,7 @@ services:
  - mysql
 
 before_install:
- - mysql -u root --password = "" < config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
+ - mysql -u root < ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
 
 script:
  - mvn package
