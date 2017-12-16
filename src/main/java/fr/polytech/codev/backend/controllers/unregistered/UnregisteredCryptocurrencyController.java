@@ -1,8 +1,8 @@
 package fr.polytech.codev.backend.controllers.unregistered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.services.impl.CryptocurrencyServices;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
+import fr.polytech.codev.backend.services.impl.CryptocurrencyServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
