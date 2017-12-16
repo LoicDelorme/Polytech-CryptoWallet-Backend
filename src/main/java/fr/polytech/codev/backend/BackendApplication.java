@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend;
 
-import fr.polytech.codev.backend.services.controllers.implementations.*;
-import fr.polytech.codev.backend.services.dao.sql.implementations.*;
+import fr.polytech.codev.backend.repositories.sql.impl.*;
+import fr.polytech.codev.backend.services.impl.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,102 +14,102 @@ public class BackendApplication {
     }
 
     @Bean
-    public AlertSqlDaoServices alertSqlDaoServices() {
-        return new AlertSqlDaoServices();
+    public AlertSqlDaoRepository alertSqlDaoServices() {
+        return new AlertSqlDaoRepository();
     }
 
     @Bean
-    public AlertTypeSqlDaoServices alertTypeSqlDaoServices() {
-        return new AlertTypeSqlDaoServices();
+    public AlertTypeSqlDaoRepository alertTypeSqlDaoServices() {
+        return new AlertTypeSqlDaoRepository();
     }
 
     @Bean
-    public AssetSqlDaoServices assetSqlDaoServices() {
-        return new AssetSqlDaoServices();
+    public AssetSqlDaoRepository assetSqlDaoServices() {
+        return new AssetSqlDaoRepository();
     }
 
     @Bean
-    public CryptocurrencySqlDaoServices cryptocurrencySqlDaoServices() {
-        return new CryptocurrencySqlDaoServices();
+    public CryptocurrencySqlDaoRepository cryptocurrencySqlDaoServices() {
+        return new CryptocurrencySqlDaoRepository();
     }
 
     @Bean
-    public FavoriteSqlDaoServices favoriteSqlDaoServices() {
-        return new FavoriteSqlDaoServices();
+    public FavoriteSqlDaoRepository favoriteSqlDaoServices() {
+        return new FavoriteSqlDaoRepository();
     }
 
     @Bean
-    public LogSqlDaoServices logSqlDaoServices() {
-        return new LogSqlDaoServices();
+    public LogSqlDaoRepository logSqlDaoServices() {
+        return new LogSqlDaoRepository();
     }
 
     @Bean
-    public SettingSqlDaoServices settingSqlDaoServices() {
-        return new SettingSqlDaoServices();
+    public SettingSqlDaoRepository settingSqlDaoServices() {
+        return new SettingSqlDaoRepository();
     }
 
     @Bean
-    public TokenSqlDaoServices tokenSqlDaoServices() {
-        return new TokenSqlDaoServices();
+    public TokenSqlDaoRepository tokenSqlDaoServices() {
+        return new TokenSqlDaoRepository();
     }
 
     @Bean
-    public UserSqlDaoServices userSqlDaoServices() {
-        return new UserSqlDaoServices();
+    public UserSqlDaoRepository userSqlDaoServices() {
+        return new UserSqlDaoRepository();
     }
 
     @Bean
-    public WalletSqlDaoServices walletSqlDaoServices() {
-        return new WalletSqlDaoServices();
+    public WalletSqlDaoRepository walletSqlDaoServices() {
+        return new WalletSqlDaoRepository();
     }
 
     @Bean
-    public AlertControllerServices alertControllerServices() {
-        return new AlertControllerServices();
+    public AlertServices alertControllerServices() {
+        return new AlertServices();
     }
 
     @Bean
-    public AlertTypeControllerServices alertTypeControllerServices() {
-        return new AlertTypeControllerServices();
+    public AlertTypeServices alertTypeControllerServices() {
+        return new AlertTypeServices();
     }
 
     @Bean
-    public AssetControllerServices assetControllerServices() {
-        return new AssetControllerServices();
+    public AssetServices assetControllerServices() {
+        return new AssetServices();
     }
 
     @Bean
-    public CryptocurrencyControllerServices cryptocurrencyControllerServices() {
-        return new CryptocurrencyControllerServices();
+    public CryptocurrencyServices cryptocurrencyControllerServices() {
+        return new CryptocurrencyServices();
     }
 
     @Bean
-    public FavoriteControllerServices favoriteControllerServices() {
-        return new FavoriteControllerServices();
+    public FavoriteServices favoriteControllerServices() {
+        return new FavoriteServices();
     }
 
     @Bean
-    public LogControllerServices logControllerServices() {
-        return new LogControllerServices();
+    public LogServices logControllerServices() {
+        return new LogServices();
     }
 
     @Bean
-    public SettingControllerServices settingControllerServices() {
-        return new SettingControllerServices();
+    public SettingServices settingControllerServices() {
+        return new SettingServices();
     }
 
     @Bean
-    public TokenControllerServices tokenControllerServices() {
-        return new TokenControllerServices();
+    public TokenServices tokenControllerServices() {
+        return new TokenServices();
     }
 
     @Bean
-    public UserControllerServices userControllerServices() {
-        return new UserControllerServices();
+    public UserServices userControllerServices() {
+        return new UserServices();
     }
 
     @Bean
-    public WalletControllerServices walletControllerServices() {
-        return new WalletControllerServices();
+    public WalletServices walletControllerServices() {
+        return new WalletServices();
     }
 }

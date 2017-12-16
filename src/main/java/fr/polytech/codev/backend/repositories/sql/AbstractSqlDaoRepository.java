@@ -1,6 +1,6 @@
-package fr.polytech.codev.backend.services.dao.sql;
+package fr.polytech.codev.backend.repositories.sql;
 
-import fr.polytech.codev.backend.services.dao.DaoServices;
+import fr.polytech.codev.backend.repositories.DaoRepository;
 import fr.polytech.codev.backend.sessions.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractSqlDaoServices<T> implements DaoServices<T> {
+public abstract class AbstractSqlDaoRepository<T> implements DaoRepository<T> {
 
     public abstract Class<T> getEntityClass();
 

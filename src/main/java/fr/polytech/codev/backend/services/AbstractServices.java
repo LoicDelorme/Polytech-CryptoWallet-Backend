@@ -1,4 +1,4 @@
-package fr.polytech.codev.backend.services.controllers;
+package fr.polytech.codev.backend.services;
 
 import fr.polytech.codev.backend.entities.Entity;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
@@ -10,7 +10,7 @@ import javax.validation.ValidatorFactory;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class AbstractControllerServices {
+public abstract class AbstractServices {
 
     public void validate(Entity entity) throws InvalidEntityException {
         final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

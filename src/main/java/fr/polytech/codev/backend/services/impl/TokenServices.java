@@ -1,12 +1,12 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Token;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.TokenForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.TokenSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.AbstractServices;
+import fr.polytech.codev.backend.repositories.sql.impl.TokenSqlDaoRepository;
+import fr.polytech.codev.backend.repositories.sql.impl.UserSqlDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -16,16 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class TokenControllerServices extends AbstractControllerServices {
+public class TokenServices extends AbstractServices {
 
     @Autowired
-    private TokenSqlDaoServices tokenSqlDaoServices;
+    private TokenSqlDaoRepository tokenSqlDaoRepository;
 
     @Autowired
-    private UserSqlDaoServices userSqlDaoServices;
+    private UserSqlDaoRepository userSqlDaoRepository;
 
     public List<Token> all() throws UnknownEntityException {
-        final List<Token> tokens = this.tokenSqlDaoServices.getAll();
+        final List<Token> tokens = this.tokenSqlDaoRepository.getAll();
         if (tokens == null) {
             throw new UnknownEntityException();
         }
@@ -34,7 +34,7 @@ public class TokenControllerServices extends AbstractControllerServices {
     }
 
     public Token get(int id) throws UnknownEntityException {
-        final Token token = this.tokenSqlDaoServices.get(id);
+        final Token token = this.tokenSqlDaoRepository.get(id);
         if (token == null) {
             throw new UnknownEntityException();
         }
@@ -46,7 +46,7 @@ public class TokenControllerServices extends AbstractControllerServices {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
         parameters.put("value", value);
 
-        final List<Token> tokens = this.tokenSqlDaoServices.filter(parameters);
+        final List<Token> tokens = this.tokenSqlDaoRepository.filter(parameters);
         if (tokens == null) {
             throw new UnknownEntityException();
         }
@@ -61,16 +61,16 @@ public class TokenControllerServices extends AbstractControllerServices {
         token.setEndDate(tokenForm.getEndDate());
         token.setCreationDate(LocalDateTime.now());
         token.setLastUpdate(LocalDateTime.now());
-        token.setUser(this.userSqlDaoServices.get(tokenForm.getUserId()));
+        token.setUser(this.userSqlDaoRepository.get(tokenForm.getUserId()));
 
         validate(token);
-        this.tokenSqlDaoServices.insert(token);
+        this.tokenSqlDaoRepository.insert(token);
 
         return token;
     }
 
     public Token update(int id, TokenForm tokenForm) throws UnknownEntityException, InvalidEntityException {
-        final Token token = this.tokenSqlDaoServices.get(id);
+        final Token token = this.tokenSqlDaoRepository.get(id);
         if (token == null) {
             throw new UnknownEntityException();
         }
@@ -79,17 +79,17 @@ public class TokenControllerServices extends AbstractControllerServices {
         token.setLastUpdate(LocalDateTime.now());
 
         validate(token);
-        this.tokenSqlDaoServices.update(token);
+        this.tokenSqlDaoRepository.update(token);
 
         return token;
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Token token = this.tokenSqlDaoServices.get(id);
+        final Token token = this.tokenSqlDaoRepository.get(id);
         if (token == null) {
             throw new UnknownEntityException();
         }
 
-        this.tokenSqlDaoServices.delete(token);
+        this.tokenSqlDaoRepository.delete(token);
     }
 }

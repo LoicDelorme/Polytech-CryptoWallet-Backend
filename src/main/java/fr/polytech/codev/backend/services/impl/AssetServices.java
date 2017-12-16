@@ -1,14 +1,14 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Asset;
 import fr.polytech.codev.backend.entities.pks.AssetPk;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AssetForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.AssetSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.WalletSqlDaoServices;
+import fr.polytech.codev.backend.services.AbstractServices;
+import fr.polytech.codev.backend.repositories.sql.impl.AssetSqlDaoRepository;
+import fr.polytech.codev.backend.repositories.sql.impl.CryptocurrencySqlDaoRepository;
+import fr.polytech.codev.backend.repositories.sql.impl.WalletSqlDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -16,19 +16,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AssetControllerServices extends AbstractControllerServices {
+public class AssetServices extends AbstractServices {
 
     @Autowired
-    private AssetSqlDaoServices assetSqlDaoServices;
+    private AssetSqlDaoRepository assetSqlDaoRepository;
 
     @Autowired
-    private CryptocurrencySqlDaoServices cryptocurrencySqlDaoServices;
+    private CryptocurrencySqlDaoRepository cryptocurrencySqlDaoRepository;
 
     @Autowired
-    private WalletSqlDaoServices walletSqlDaoServices;
+    private WalletSqlDaoRepository walletSqlDaoRepository;
 
     public List<Asset> all() throws UnknownEntityException {
-        final List<Asset> assets = this.assetSqlDaoServices.getAll();
+        final List<Asset> assets = this.assetSqlDaoRepository.getAll();
         if (assets == null) {
             throw new UnknownEntityException();
         }
@@ -38,10 +38,10 @@ public class AssetControllerServices extends AbstractControllerServices {
 
     public Asset get(int walletId, int cryptocurrencyId) throws UnknownEntityException {
         final AssetPk assetPk = new AssetPk();
-        assetPk.setWallet(this.walletSqlDaoServices.get(walletId));
-        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        assetPk.setWallet(this.walletSqlDaoRepository.get(walletId));
+        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoRepository.get(cryptocurrencyId));
 
-        final Asset asset = this.assetSqlDaoServices.get(assetPk);
+        final Asset asset = this.assetSqlDaoRepository.get(assetPk);
         if (asset == null) {
             throw new UnknownEntityException();
         }
@@ -51,9 +51,9 @@ public class AssetControllerServices extends AbstractControllerServices {
 
     public List<Asset> getByWallet(int walletId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
-        parameters.put("wallet", this.walletSqlDaoServices.get(walletId));
+        parameters.put("wallet", this.walletSqlDaoRepository.get(walletId));
 
-        final List<Asset> assets = this.assetSqlDaoServices.filter(parameters);
+        final List<Asset> assets = this.assetSqlDaoRepository.filter(parameters);
         if (assets == null) {
             throw new UnknownEntityException();
         }
@@ -63,9 +63,9 @@ public class AssetControllerServices extends AbstractControllerServices {
 
     public List<Asset> getByCryptocurrency(int cryptocurrencyId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
-        parameters.put("cryptocurrency", this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        parameters.put("cryptocurrency", this.cryptocurrencySqlDaoRepository.get(cryptocurrencyId));
 
-        final List<Asset> assets = this.assetSqlDaoServices.filter(parameters);
+        final List<Asset> assets = this.assetSqlDaoRepository.filter(parameters);
         if (assets == null) {
             throw new UnknownEntityException();
         }
@@ -75,23 +75,23 @@ public class AssetControllerServices extends AbstractControllerServices {
 
     public Asset insert(int walletId, int cryptocurrencyId, AssetForm assetForm) throws InvalidEntityException {
         final Asset asset = new Asset();
-        asset.setWallet(this.walletSqlDaoServices.get(walletId));
-        asset.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        asset.setWallet(this.walletSqlDaoRepository.get(walletId));
+        asset.setCryptocurrency(this.cryptocurrencySqlDaoRepository.get(cryptocurrencyId));
         asset.setAmount(assetForm.getAmount());
         asset.setPurchasePrice(assetForm.getPurchasePrice());
 
         validate(asset);
-        this.assetSqlDaoServices.insert(asset);
+        this.assetSqlDaoRepository.insert(asset);
 
         return asset;
     }
 
     public Asset update(int walletId, int cryptocurrencyId, AssetForm assetForm) throws UnknownEntityException, InvalidEntityException {
         final AssetPk assetPk = new AssetPk();
-        assetPk.setWallet(this.walletSqlDaoServices.get(walletId));
-        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        assetPk.setWallet(this.walletSqlDaoRepository.get(walletId));
+        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoRepository.get(cryptocurrencyId));
 
-        final Asset asset = this.assetSqlDaoServices.get(assetPk);
+        final Asset asset = this.assetSqlDaoRepository.get(assetPk);
         if (asset == null) {
             throw new UnknownEntityException();
         }
@@ -100,21 +100,21 @@ public class AssetControllerServices extends AbstractControllerServices {
         asset.setPurchasePrice(assetForm.getPurchasePrice());
 
         validate(asset);
-        this.assetSqlDaoServices.update(asset);
+        this.assetSqlDaoRepository.update(asset);
 
         return asset;
     }
 
     public void delete(int walletId, int cryptocurrencyId) throws UnknownEntityException {
         final AssetPk assetPk = new AssetPk();
-        assetPk.setWallet(this.walletSqlDaoServices.get(walletId));
-        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        assetPk.setWallet(this.walletSqlDaoRepository.get(walletId));
+        assetPk.setCryptocurrency(this.cryptocurrencySqlDaoRepository.get(cryptocurrencyId));
 
-        final Asset asset = this.assetSqlDaoServices.get(assetPk);
+        final Asset asset = this.assetSqlDaoRepository.get(assetPk);
         if (asset == null) {
             throw new UnknownEntityException();
         }
 
-        this.assetSqlDaoServices.delete(asset);
+        this.assetSqlDaoRepository.delete(asset);
     }
 }

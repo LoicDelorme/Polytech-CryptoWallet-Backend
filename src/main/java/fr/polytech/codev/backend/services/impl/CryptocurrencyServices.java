@@ -1,23 +1,23 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Cryptocurrency;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.CryptocurrencyForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.sql.implementations.CryptocurrencySqlDaoServices;
+import fr.polytech.codev.backend.services.AbstractServices;
+import fr.polytech.codev.backend.repositories.sql.impl.CryptocurrencySqlDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class CryptocurrencyControllerServices extends AbstractControllerServices {
+public class CryptocurrencyServices extends AbstractServices {
 
     @Autowired
-    private CryptocurrencySqlDaoServices cryptocurrencySqlDaoServices;
+    private CryptocurrencySqlDaoRepository cryptocurrencySqlDaoRepository;
 
     public List<Cryptocurrency> all() throws UnknownEntityException {
-        final List<Cryptocurrency> cryptocurrencies = this.cryptocurrencySqlDaoServices.getAll();
+        final List<Cryptocurrency> cryptocurrencies = this.cryptocurrencySqlDaoRepository.getAll();
         if (cryptocurrencies == null) {
             throw new UnknownEntityException();
         }
@@ -26,7 +26,7 @@ public class CryptocurrencyControllerServices extends AbstractControllerServices
     }
 
     public Cryptocurrency get(int id) throws UnknownEntityException {
-        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoServices.get(id);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoRepository.get(id);
         if (cryptocurrency == null) {
             throw new UnknownEntityException();
         }
@@ -45,13 +45,13 @@ public class CryptocurrencyControllerServices extends AbstractControllerServices
         cryptocurrency.setLastUpdate(LocalDateTime.now());
 
         validate(cryptocurrency);
-        this.cryptocurrencySqlDaoServices.insert(cryptocurrency);
+        this.cryptocurrencySqlDaoRepository.insert(cryptocurrency);
 
         return cryptocurrency;
     }
 
     public Cryptocurrency update(int id, CryptocurrencyForm cryptocurrencyForm) throws UnknownEntityException, InvalidEntityException {
-        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoServices.get(id);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoRepository.get(id);
         if (cryptocurrency == null) {
             throw new UnknownEntityException();
         }
@@ -64,17 +64,17 @@ public class CryptocurrencyControllerServices extends AbstractControllerServices
         cryptocurrency.setLastUpdate(LocalDateTime.now());
 
         validate(cryptocurrency);
-        this.cryptocurrencySqlDaoServices.update(cryptocurrency);
+        this.cryptocurrencySqlDaoRepository.update(cryptocurrency);
 
         return cryptocurrency;
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoServices.get(id);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencySqlDaoRepository.get(id);
         if (cryptocurrency == null) {
             throw new UnknownEntityException();
         }
 
-        this.cryptocurrencySqlDaoServices.delete(cryptocurrency);
+        this.cryptocurrencySqlDaoRepository.delete(cryptocurrency);
     }
 }

@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.controllers.unregistered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.services.controllers.implementations.UserControllerServices;
+import fr.polytech.codev.backend.services.impl.UserServices;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.forms.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UnregisteredUserController extends AbstractController {
 
     @Autowired
-    private UserControllerServices userControllerServices;
+    private UserServices userServices;
 
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity insert(@RequestBody String data) throws InvalidEntityException {
@@ -23,6 +23,6 @@ public class UnregisteredUserController extends AbstractController {
         userForm.setAdministrator(false);
         userForm.setEnabled(true);
 
-        return serializeSuccessResponse(this.userControllerServices.insert(userForm));
+        return serializeSuccessResponse(this.userServices.insert(userForm));
     }
 }
