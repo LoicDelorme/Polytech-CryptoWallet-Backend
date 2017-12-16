@@ -4,5 +4,20 @@ language: java
 jdk:
  - oraclejdk8
 
+services:
+ - mysql
+
+before_install:
+ - mysql -u root < ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
+
 script:
  - mvn package
+
+after_success:
+ - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build -t $DOCKER_USERNAME/cryptowallet-backend .;
+    echo "Testing Docker Hub credentials...";
+    docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD;
+    echo "Docker Hub credentials are working";
+    docker push $DOCKER_USERNAME/cryptowallet-backend;
+    fi
