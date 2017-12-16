@@ -1,7 +1,7 @@
-package fr.polytech.codev.backend.services.dao.implementations;
+package fr.polytech.codev.backend.services.dao.sql.implementations;
 
 import fr.polytech.codev.backend.entities.Setting;
-import fr.polytech.codev.backend.services.dao.AbstractSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.AbstractSqlDaoServices;
 
 public class SettingSqlDaoServices extends AbstractSqlDaoServices<Setting> {
 

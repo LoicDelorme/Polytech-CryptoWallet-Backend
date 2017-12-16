@@ -5,8 +5,8 @@ import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.SettingForm;
 import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.SettingSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.implementations.SettingSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.implementations.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

@@ -6,9 +6,9 @@ import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.FavoriteForm;
 import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.FavoriteSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.implementations.CryptocurrencySqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.implementations.FavoriteSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.sql.implementations.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

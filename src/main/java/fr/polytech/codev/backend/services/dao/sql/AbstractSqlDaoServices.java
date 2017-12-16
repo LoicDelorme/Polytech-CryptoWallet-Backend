@@ -1,5 +1,6 @@
-package fr.polytech.codev.backend.services.dao;
+package fr.polytech.codev.backend.services.dao.sql;
 
+import fr.polytech.codev.backend.services.dao.DaoServices;
 import fr.polytech.codev.backend.sessions.HibernateSession;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;

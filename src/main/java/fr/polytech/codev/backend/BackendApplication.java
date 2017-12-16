@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend;
 
 import fr.polytech.codev.backend.services.controllers.implementations.*;
-import fr.polytech.codev.backend.services.dao.implementations.*;
+import fr.polytech.codev.backend.services.dao.sql.implementations.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
