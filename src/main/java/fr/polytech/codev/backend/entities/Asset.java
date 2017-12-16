@@ -5,6 +5,7 @@ import fr.polytech.codev.backend.adapters.WalletAdapter;
 import fr.polytech.codev.backend.entities.pks.AssetPk;
 import lombok.Data;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -18,12 +19,14 @@ import java.math.BigDecimal;
 @IdClass(AssetPk.class)
 public class Asset implements fr.polytech.codev.backend.entities.Entity {
 
+    @JsonbProperty("walletId")
     @JsonbTypeAdapter(WalletAdapter.class)
     @Id
     @ManyToOne
     @JoinColumn(name = "wallet")
     private Wallet wallet;
 
+    @JsonbProperty("cryptocurrencyId")
     @JsonbTypeAdapter(CryptocurrencyAdapter.class)
     @Id
     @ManyToOne
