@@ -1,23 +1,23 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.AlertType;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AlertTypeForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.AlertTypeSqlDaoServices;
+import fr.polytech.codev.backend.repositories.DaoRepository;
+import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class AlertTypeControllerServices extends AbstractControllerServices {
+public class AlertTypeServices extends AbstractServices {
 
     @Autowired
-    private AlertTypeSqlDaoServices alertTypeSqlDaoServices;
+    private DaoRepository<AlertType> alertTypeDaoRepository;
 
     public List<AlertType> all() throws UnknownEntityException {
-        final List<AlertType> alertTypes = this.alertTypeSqlDaoServices.getAll();
+        final List<AlertType> alertTypes = this.alertTypeDaoRepository.getAll();
         if (alertTypes == null) {
             throw new UnknownEntityException();
         }
@@ -26,7 +26,7 @@ public class AlertTypeControllerServices extends AbstractControllerServices {
     }
 
     public AlertType get(int id) throws UnknownEntityException {
-        final AlertType alertType = this.alertTypeSqlDaoServices.get(id);
+        final AlertType alertType = this.alertTypeDaoRepository.get(id);
         if (alertType == null) {
             throw new UnknownEntityException();
         }
@@ -41,13 +41,13 @@ public class AlertTypeControllerServices extends AbstractControllerServices {
         alertType.setLastUpdate(LocalDateTime.now());
 
         validate(alertType);
-        this.alertTypeSqlDaoServices.insert(alertType);
+        this.alertTypeDaoRepository.insert(alertType);
 
         return alertType;
     }
 
     public AlertType update(int id, AlertTypeForm alertTypeForm) throws UnknownEntityException, InvalidEntityException {
-        final AlertType alertType = this.alertTypeSqlDaoServices.get(id);
+        final AlertType alertType = this.alertTypeDaoRepository.get(id);
         if (alertType == null) {
             throw new UnknownEntityException();
         }
@@ -56,17 +56,17 @@ public class AlertTypeControllerServices extends AbstractControllerServices {
         alertType.setLastUpdate(LocalDateTime.now());
 
         validate(alertType);
-        this.alertTypeSqlDaoServices.update(alertType);
+        this.alertTypeDaoRepository.update(alertType);
 
         return alertType;
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final AlertType alertType = this.alertTypeSqlDaoServices.get(id);
+        final AlertType alertType = this.alertTypeDaoRepository.get(id);
         if (alertType == null) {
             throw new UnknownEntityException();
         }
 
-        this.alertTypeSqlDaoServices.delete(alertType);
+        this.alertTypeDaoRepository.delete(alertType);
     }
 }

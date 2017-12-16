@@ -1,35 +1,35 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Alert;
+import fr.polytech.codev.backend.entities.AlertType;
+import fr.polytech.codev.backend.entities.Cryptocurrency;
+import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.AlertForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.AlertSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.AlertTypeSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.repositories.DaoRepository;
+import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class AlertControllerServices extends AbstractControllerServices {
+public class AlertServices extends AbstractServices {
 
     @Autowired
-    private AlertSqlDaoServices alertSqlDaoServices;
+    private DaoRepository<Alert> alertDaoRepository;
 
     @Autowired
-    private UserSqlDaoServices userSqlDaoServices;
+    private DaoRepository<User> userDaoRepository;
 
     @Autowired
-    private CryptocurrencySqlDaoServices cryptocurrencySqlDaoServices;
+    private DaoRepository<Cryptocurrency> cryptocurrencyDaoRepository;
 
     @Autowired
-    private AlertTypeSqlDaoServices alertTypeSqlDaoServices;
+    private DaoRepository<AlertType> alertTypeDaoRepository;
 
     public List<Alert> all() throws UnknownEntityException {
-        final List<Alert> alerts = this.alertSqlDaoServices.getAll();
+        final List<Alert> alerts = this.alertDaoRepository.getAll();
         if (alerts == null) {
             throw new UnknownEntityException();
         }
@@ -38,7 +38,7 @@ public class AlertControllerServices extends AbstractControllerServices {
     }
 
     public Alert get(int id) throws UnknownEntityException {
-        final Alert alert = this.alertSqlDaoServices.get(id);
+        final Alert alert = this.alertDaoRepository.get(id);
         if (alert == null) {
             throw new UnknownEntityException();
         }
@@ -53,18 +53,18 @@ public class AlertControllerServices extends AbstractControllerServices {
         alert.setActive(alertForm.isActive());
         alert.setCreationDate(LocalDateTime.now());
         alert.setLastUpdate(LocalDateTime.now());
-        alert.setUser(this.userSqlDaoServices.get(alertForm.getUserId()));
-        alert.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(alertForm.getCryptocurrencyId()));
-        alert.setType(this.alertTypeSqlDaoServices.get(alertForm.getTypeId()));
+        alert.setUser(this.userDaoRepository.get(alertForm.getUserId()));
+        alert.setCryptocurrency(this.cryptocurrencyDaoRepository.get(alertForm.getCryptocurrencyId()));
+        alert.setType(this.alertTypeDaoRepository.get(alertForm.getTypeId()));
 
         validate(alert);
-        this.alertSqlDaoServices.insert(alert);
+        this.alertDaoRepository.insert(alert);
 
         return alert;
     }
 
     public Alert update(int id, AlertForm alertForm) throws UnknownEntityException, InvalidEntityException {
-        final Alert alert = this.alertSqlDaoServices.get(id);
+        final Alert alert = this.alertDaoRepository.get(id);
         if (alert == null) {
             throw new UnknownEntityException();
         }
@@ -73,21 +73,21 @@ public class AlertControllerServices extends AbstractControllerServices {
         alert.setOneShot(alertForm.isOneShot());
         alert.setActive(alertForm.isActive());
         alert.setLastUpdate(LocalDateTime.now());
-        alert.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(alertForm.getCryptocurrencyId()));
-        alert.setType(this.alertTypeSqlDaoServices.get(alertForm.getTypeId()));
+        alert.setCryptocurrency(this.cryptocurrencyDaoRepository.get(alertForm.getCryptocurrencyId()));
+        alert.setType(this.alertTypeDaoRepository.get(alertForm.getTypeId()));
 
         validate(alert);
-        this.alertSqlDaoServices.update(alert);
+        this.alertDaoRepository.update(alert);
 
         return alert;
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Alert alert = this.alertSqlDaoServices.get(id);
+        final Alert alert = this.alertDaoRepository.get(id);
         if (alert == null) {
             throw new UnknownEntityException();
         }
 
-        this.alertSqlDaoServices.delete(alert);
+        this.alertDaoRepository.delete(alert);
     }
 }

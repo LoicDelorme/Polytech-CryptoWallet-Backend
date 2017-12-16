@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.json.bind.JsonbException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,6 +29,11 @@ public class ExceptionsController extends AbstractController {
     public static final String DEFAULT_EXPIRED_TOKEN_ERROR_MESSAGE = "The specified token has expired.";
 
     public static final String DEFAULT_UNAUTHORIZED_USER_ERROR_MESSAGE = "The specified user is not granted to perform this operation.";
+
+    @ExceptionHandler(JsonbException.class)
+    public ResponseEntity handleJsonbException(HttpServletRequest request, JsonbException exception) {
+        return generateResponseEntity(request, HttpStatus.INTERNAL_SERVER_ERROR, DEFAULT_ERROR_MESSAGE, exception);
+    }
 
     @ExceptionHandler(HibernateException.class)
     public ResponseEntity handleHibernateException(HttpServletRequest request, HibernateException exception) {

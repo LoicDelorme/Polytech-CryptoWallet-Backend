@@ -31,11 +31,9 @@ public class Alert implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "threshold")
     private BigDecimal threshold;
 
-    @JsonbProperty("isOneShot")
     @Column(name = "is_one_shot")
     private boolean isOneShot;
 
-    @JsonbProperty("isActive")
     @Column(name = "is_active")
     private boolean isActive;
 
@@ -51,18 +49,21 @@ public class Alert implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
+    @JsonbProperty("userId")
     @JsonbTypeAdapter(UserAdapter.class)
     @NotNull(message = "The user can't be null!")
     @ManyToOne
     @JoinColumn(name = "user")
     private User user;
 
+    @JsonbProperty("cryptocurrencyId")
     @JsonbTypeAdapter(CryptocurrencyAdapter.class)
     @NotNull(message = "The cryptocurrency can't be null!")
     @ManyToOne
     @JoinColumn(name = "cryptocurrency")
     private Cryptocurrency cryptocurrency;
 
+    @JsonbProperty("typeId")
     @JsonbTypeAdapter(AlertTypeAdapter.class)
     @NotNull(message = "The type can't be null!")
     @ManyToOne

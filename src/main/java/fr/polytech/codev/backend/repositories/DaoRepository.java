@@ -1,10 +1,10 @@
-package fr.polytech.codev.backend.services.dao;
+package fr.polytech.codev.backend.repositories;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public interface DaoServices<T> {
+public interface DaoRepository<T> {
 
     public T get(Serializable id);
 

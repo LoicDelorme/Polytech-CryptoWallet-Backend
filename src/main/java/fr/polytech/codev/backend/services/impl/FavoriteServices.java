@@ -1,14 +1,14 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
+import fr.polytech.codev.backend.entities.Cryptocurrency;
 import fr.polytech.codev.backend.entities.Favorite;
+import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.entities.pks.FavoritePk;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.FavoriteForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.CryptocurrencySqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.FavoriteSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.repositories.DaoRepository;
+import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -16,19 +16,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FavoriteControllerServices extends AbstractControllerServices {
+public class FavoriteServices extends AbstractServices {
 
     @Autowired
-    private FavoriteSqlDaoServices favoriteSqlDaoServices;
+    private DaoRepository<Favorite> favoriteDaoRepository;
 
     @Autowired
-    private CryptocurrencySqlDaoServices cryptocurrencySqlDaoServices;
+    private DaoRepository<Cryptocurrency> cryptocurrencyDaoRepository;
 
     @Autowired
-    private UserSqlDaoServices userSqlDaoServices;
+    private DaoRepository<User> userDaoRepository;
 
     public List<Favorite> all() throws UnknownEntityException {
-        final List<Favorite> favorites = this.favoriteSqlDaoServices.getAll();
+        final List<Favorite> favorites = this.favoriteDaoRepository.getAll();
         if (favorites == null) {
             throw new UnknownEntityException();
         }
@@ -38,10 +38,10 @@ public class FavoriteControllerServices extends AbstractControllerServices {
 
     public Favorite get(int userId, int cryptocurrencyId) throws UnknownEntityException {
         final FavoritePk favoritePk = new FavoritePk();
-        favoritePk.setUser(this.userSqlDaoServices.get(userId));
-        favoritePk.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        favoritePk.setUser(this.userDaoRepository.get(userId));
+        favoritePk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
 
-        final Favorite favorite = this.favoriteSqlDaoServices.get(favoritePk);
+        final Favorite favorite = this.favoriteDaoRepository.get(favoritePk);
         if (favorite == null) {
             throw new UnknownEntityException();
         }
@@ -51,9 +51,9 @@ public class FavoriteControllerServices extends AbstractControllerServices {
 
     public List<Favorite> getByUser(int userId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
-        parameters.put("user", this.userSqlDaoServices.get(userId));
+        parameters.put("user", this.userDaoRepository.get(userId));
 
-        final List<Favorite> favorites = this.favoriteSqlDaoServices.filter(parameters);
+        final List<Favorite> favorites = this.favoriteDaoRepository.filter(parameters);
         if (favorites == null) {
             throw new UnknownEntityException();
         }
@@ -63,9 +63,9 @@ public class FavoriteControllerServices extends AbstractControllerServices {
 
     public List<Favorite> getByCryptocurrency(int cryptocurrencyId) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
-        parameters.put("cryptocurrency", this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        parameters.put("cryptocurrency", this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
 
-        final List<Favorite> favorites = this.favoriteSqlDaoServices.filter(parameters);
+        final List<Favorite> favorites = this.favoriteDaoRepository.filter(parameters);
         if (favorites == null) {
             throw new UnknownEntityException();
         }
@@ -75,25 +75,25 @@ public class FavoriteControllerServices extends AbstractControllerServices {
 
     public Favorite insert(int userId, int cryptocurrencyId, FavoriteForm favoriteForm) throws InvalidEntityException {
         final Favorite favorite = new Favorite();
-        favorite.setUser(this.userSqlDaoServices.get(userId));
-        favorite.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        favorite.setUser(this.userDaoRepository.get(userId));
+        favorite.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
 
         validate(favorite);
-        this.favoriteSqlDaoServices.insert(favorite);
+        this.favoriteDaoRepository.insert(favorite);
 
         return favorite;
     }
 
     public void delete(int userId, int cryptocurrencyId) throws UnknownEntityException {
         final FavoritePk favoritePk = new FavoritePk();
-        favoritePk.setUser(this.userSqlDaoServices.get(userId));
-        favoritePk.setCryptocurrency(this.cryptocurrencySqlDaoServices.get(cryptocurrencyId));
+        favoritePk.setUser(this.userDaoRepository.get(userId));
+        favoritePk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
 
-        final Favorite favorite = this.favoriteSqlDaoServices.get(favoritePk);
+        final Favorite favorite = this.favoriteDaoRepository.get(favoritePk);
         if (favorite == null) {
             throw new UnknownEntityException();
         }
 
-        this.favoriteSqlDaoServices.delete(favorite);
+        this.favoriteDaoRepository.delete(favorite);
     }
 }

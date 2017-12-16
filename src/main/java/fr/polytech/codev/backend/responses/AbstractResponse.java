@@ -3,7 +3,7 @@ package fr.polytech.codev.backend.responses;
 import lombok.Data;
 
 @Data
-public class AbstractResponse {
+public abstract class AbstractResponse {
 
     private final boolean isSuccess;
 

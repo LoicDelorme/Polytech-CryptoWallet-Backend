@@ -1,7 +1,5 @@
 package fr.polytech.codev.backend.controllers;
 
-import fr.polytech.codev.backend.services.controllers.implementations.TokenControllerServices;
-import fr.polytech.codev.backend.services.controllers.implementations.UserControllerServices;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
@@ -14,6 +12,8 @@ import fr.polytech.codev.backend.responses.FailureResponse;
 import fr.polytech.codev.backend.responses.SuccessResponse;
 import fr.polytech.codev.backend.serializers.AbstractStringSerializer;
 import fr.polytech.codev.backend.serializers.JsonStringSerializer;
+import fr.polytech.codev.backend.services.impl.TokenServices;
+import fr.polytech.codev.backend.services.impl.UserServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +32,10 @@ public abstract class AbstractController {
     private static AbstractStringDeserializer abstractStringDeserializer = new JsonStringDeserializer();
 
     @Autowired
-    private TokenControllerServices tokenControllerServices;
+    private TokenServices tokenServices;
 
     @Autowired
-    private UserControllerServices userControllerServices;
+    private UserServices userServices;
 
     protected void logInfo(String message) {
         logger.info(message);
@@ -77,6 +77,7 @@ public abstract class AbstractController {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
+        this.userServices.updateLastActivity(token.getUser().getId());
     }
 
     public void assertUserIsUser(String tokenValue, int requestedId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
@@ -84,7 +85,7 @@ public abstract class AbstractController {
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsUser(token, requestedId);
-        this.userControllerServices.updateLastActivity(token.getUser().getId());
+        this.userServices.updateLastActivity(token.getUser().getId());
     }
 
     public void assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
@@ -92,11 +93,11 @@ public abstract class AbstractController {
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsAdministrator(token);
-        this.userControllerServices.updateLastActivity(token.getUser().getId());
+        this.userServices.updateLastActivity(token.getUser().getId());
     }
 
     private Token getToken(String tokenValue) throws UnknownEntityException, InvalidTokenException {
-        final List<Token> tokens = this.tokenControllerServices.getByValue(tokenValue);
+        final List<Token> tokens = this.tokenServices.getByValue(tokenValue);
         if (tokens.size() != 1) {
             throw new InvalidTokenException();
         }

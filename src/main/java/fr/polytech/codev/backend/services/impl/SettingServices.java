@@ -1,27 +1,27 @@
-package fr.polytech.codev.backend.services.controllers.implementations;
+package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Setting;
+import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.SettingForm;
-import fr.polytech.codev.backend.services.controllers.AbstractControllerServices;
-import fr.polytech.codev.backend.services.dao.implementations.SettingSqlDaoServices;
-import fr.polytech.codev.backend.services.dao.implementations.UserSqlDaoServices;
+import fr.polytech.codev.backend.repositories.DaoRepository;
+import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class SettingControllerServices extends AbstractControllerServices {
+public class SettingServices extends AbstractServices {
 
     @Autowired
-    private SettingSqlDaoServices settingSqlDaoServices;
+    private DaoRepository<Setting> settingDaoRepository;
 
     @Autowired
-    private UserSqlDaoServices userSqlDaoServices;
+    private DaoRepository<User> userDaoRepository;
 
     public List<Setting> all() throws UnknownEntityException {
-        final List<Setting> settings = this.settingSqlDaoServices.getAll();
+        final List<Setting> settings = this.settingDaoRepository.getAll();
         if (settings == null) {
             throw new UnknownEntityException();
         }
@@ -30,7 +30,7 @@ public class SettingControllerServices extends AbstractControllerServices {
     }
 
     public Setting get(int id) throws UnknownEntityException {
-        final Setting setting = this.settingSqlDaoServices.get(id);
+        final Setting setting = this.settingDaoRepository.get(id);
         if (setting == null) {
             throw new UnknownEntityException();
         }
@@ -44,16 +44,16 @@ public class SettingControllerServices extends AbstractControllerServices {
         setting.setTheme(settingForm.getTheme());
         setting.setCreationDate(LocalDateTime.now());
         setting.setLastUpdate(LocalDateTime.now());
-        setting.setUser(this.userSqlDaoServices.get(settingForm.getUserId()));
+        setting.setUser(this.userDaoRepository.get(settingForm.getUserId()));
 
         validate(setting);
-        this.settingSqlDaoServices.insert(setting);
+        this.settingDaoRepository.insert(setting);
 
         return setting;
     }
 
     public Setting update(int id, SettingForm settingForm) throws UnknownEntityException, InvalidEntityException {
-        final Setting setting = this.settingSqlDaoServices.get(id);
+        final Setting setting = this.settingDaoRepository.get(id);
         if (setting == null) {
             throw new UnknownEntityException();
         }
@@ -63,17 +63,17 @@ public class SettingControllerServices extends AbstractControllerServices {
         setting.setLastUpdate(LocalDateTime.now());
 
         validate(setting);
-        this.settingSqlDaoServices.update(setting);
+        this.settingDaoRepository.update(setting);
 
         return setting;
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Setting setting = this.settingSqlDaoServices.get(id);
+        final Setting setting = this.settingDaoRepository.get(id);
         if (setting == null) {
             throw new UnknownEntityException();
         }
 
-        this.settingSqlDaoServices.delete(setting);
+        this.settingDaoRepository.delete(setting);
     }
 }
