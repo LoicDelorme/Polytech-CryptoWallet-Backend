@@ -1,4 +1,4 @@
-package fr.polytech.codev.backend.services;
+package fr.polytech.codev.backend.services.dao;
 
 import fr.polytech.codev.backend.entities.User;
 

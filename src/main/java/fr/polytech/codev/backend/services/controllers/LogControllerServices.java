@@ -1,11 +1,11 @@
-package fr.polytech.codev.backend.controllers.services;
+package fr.polytech.codev.backend.services.controllers;
 
 import fr.polytech.codev.backend.entities.Log;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.LogForm;
-import fr.polytech.codev.backend.services.LogSqlDaoServices;
-import fr.polytech.codev.backend.services.UserSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.LogSqlDaoServices;
+import fr.polytech.codev.backend.services.dao.UserSqlDaoServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;

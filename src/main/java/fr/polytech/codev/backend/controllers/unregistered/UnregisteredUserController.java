@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.controllers.unregistered;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.controllers.services.UserControllerServices;
+import fr.polytech.codev.backend.services.controllers.UserControllerServices;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.forms.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
