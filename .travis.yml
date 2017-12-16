@@ -4,5 +4,15 @@ language: java
 jdk:
  - oraclejdk8
 
+services:
+ - mysql
+
+before_install:
+ - mysql -e 'CREATE DATABASE CryptoWallet DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;'
+ - mysql -e 'CREATE USER 'CryptoWalletUser'@'localhost' IDENTIFIED BY 'CryptoWalletUserPassword';'
+ - mysql -e 'CREATE USER 'CryptoWalletUser'@'%' IDENTIFIED BY 'CryptoWalletUserPassword';'
+ - mysql -e 'GRANT SELECT, INSERT, UPDATE, DELETE ON CryptoWallet.* TO 'CryptoWalletUser'@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;'
+ - mysql -e 'GRANT SELECT, INSERT, UPDATE, DELETE ON CryptoWallet.* TO 'CryptoWalletUser'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;'
+
 script:
  - mvn package
