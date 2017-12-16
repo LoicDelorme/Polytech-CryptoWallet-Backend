@@ -4,10 +4,19 @@ services:
     container_name: mysql-db-container
     image: mysql:latest
     restart: always
-    ports:
-      - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=CryptoWalletRootPassword
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+  cryptowallet-backend-container:
+      container_name: "cryptowallet-backend-container"
+      depends_on:
+        - mysql-db-container
+      image: delormeloic26/cryptowallet-backend
+      links:
+        - mysql-db-container
+      ports:
+        - "80:8090"
+      restart: always
