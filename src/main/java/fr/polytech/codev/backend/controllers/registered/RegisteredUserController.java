@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/cryptowallet/registered/{token}/user")
-public class RegisteredUsersController extends AbstractController {
+public class RegisteredUserController extends AbstractController {
 
     @Autowired
     private UserServices userServices;
@@ -167,6 +167,18 @@ public class RegisteredUsersController extends AbstractController {
         assertEquals(user.getId(), log.getUser().getId());
 
         return serializeSuccessResponse(log);
+    }
+
+    @RequestMapping(value = "/{userId}/asset/wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity asset(@PathVariable String token, @PathVariable int userId, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+        assertUserIsUser(token, userId);
+
+        final User user = this.userServices.get(userId);
+        final Wallet wallet = this.walletServices.get(walletId);
+        final Cryptocurrency cryptocurrency = this.cryptocurrencyServices.get(cryptocurrencyId);
+        assertEquals(user.getId(), wallet.getUser().getId());
+
+        return serializeSuccessResponse(this.assetServices.get(wallet.getId(), cryptocurrency.getId()));
     }
 
     @RequestMapping(value = "/{userId}/favorite/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
