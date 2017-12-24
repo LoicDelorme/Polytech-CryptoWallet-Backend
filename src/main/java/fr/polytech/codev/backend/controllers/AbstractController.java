@@ -3,10 +3,8 @@ package fr.polytech.codev.backend.controllers;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
-import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
-import fr.polytech.codev.backend.exceptions.InvalidTokenException;
-import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
-import fr.polytech.codev.backend.exceptions.UnknownEntityException;
+import fr.polytech.codev.backend.exceptions.*;
+import fr.polytech.codev.backend.forms.TokenForm;
 import fr.polytech.codev.backend.responses.AbstractResponse;
 import fr.polytech.codev.backend.responses.FailureResponse;
 import fr.polytech.codev.backend.responses.SuccessResponse;
@@ -24,6 +22,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class AbstractController {
+
+    public static final int DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE = 1;
 
     private static Logger logger = LoggerFactory.getLogger(AbstractController.class);
 
@@ -73,26 +73,41 @@ public abstract class AbstractController {
         return abstractStringDeserializer.from(data, outputType);
     }
 
-    public void assertIsUser(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public void assertIsUser(String tokenValue) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
+
+        final TokenForm tokenForm = new TokenForm();
+        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
+
+        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
-    public void assertUserIsUser(String tokenValue, int requestedId) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public void assertUserIsUser(String tokenValue, int requestedId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsUser(token, requestedId);
+
+        final TokenForm tokenForm = new TokenForm();
+        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
+
+        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
-    public void assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public void assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsAdministrator(token);
+
+        final TokenForm tokenForm = new TokenForm();
+        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
+
+        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
