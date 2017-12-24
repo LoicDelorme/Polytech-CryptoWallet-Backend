@@ -3,6 +3,7 @@ package fr.polytech.codev.backend.services.impl;
 import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
+import fr.polytech.codev.backend.forms.AuthenticationForm;
 import fr.polytech.codev.backend.forms.UserForm;
 import fr.polytech.codev.backend.repositories.DaoRepository;
 import fr.polytech.codev.backend.services.AbstractServices;
@@ -37,10 +38,10 @@ public class UserServices extends AbstractServices {
         return user;
     }
 
-    public User getByCredentials(String email, String password) throws UnknownEntityException {
+    public User getByCredentials(AuthenticationForm authenticationForm) throws UnknownEntityException {
         final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
-        parameters.put("email", email);
-        parameters.put("password", password);
+        parameters.put("email", authenticationForm.getEmail());
+        parameters.put("password", authenticationForm.getPassword());
 
         final List<User> users = this.userDaoRepository.filter(parameters);
         if (users == null || users.size() != 1) {
