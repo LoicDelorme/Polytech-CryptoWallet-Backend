@@ -48,6 +48,7 @@ public class AlertServices extends AbstractServices {
 
     public Alert insert(AlertForm alertForm) throws InvalidEntityException {
         final Alert alert = new Alert();
+        alert.setName(alertForm.getName());
         alert.setThreshold(alertForm.getThreshold());
         alert.setOneShot(alertForm.isOneShot());
         alert.setActive(alertForm.isActive());
@@ -69,6 +70,7 @@ public class AlertServices extends AbstractServices {
             throw new UnknownEntityException();
         }
 
+        alert.setName(alertForm.getName());
         alert.setThreshold(alertForm.getThreshold());
         alert.setOneShot(alertForm.isOneShot());
         alert.setActive(alertForm.isActive());
