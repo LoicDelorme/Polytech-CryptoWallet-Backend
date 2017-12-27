@@ -6,7 +6,7 @@ import javax.json.Json;
 import javax.json.JsonNumber;
 import javax.json.bind.adapter.JsonbAdapter;
 
-public class WalletAdapter implements JsonbAdapter<Wallet, JsonNumber> {
+public class WalletIdJsonbAdapter implements JsonbAdapter<Wallet, JsonNumber> {
 
     @Override
     public JsonNumber adaptToJson(Wallet original) throws Exception {

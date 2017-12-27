@@ -72,6 +72,7 @@ CREATE TABLE settings (
 
 CREATE TABLE alerts (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL,
     threshold NUMERIC(30, 8) NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT false,
     is_one_shot BOOLEAN NOT NULL DEFAULT false,
