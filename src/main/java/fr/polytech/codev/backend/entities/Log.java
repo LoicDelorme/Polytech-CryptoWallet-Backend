@@ -1,6 +1,6 @@
 package fr.polytech.codev.backend.entities;
 
-import fr.polytech.codev.backend.adapters.UserAdapter;
+import fr.polytech.codev.backend.adapters.UserIdJsonbAdapter;
 import lombok.Data;
 
 import javax.json.bind.annotation.JsonbDateFormat;
@@ -42,7 +42,7 @@ public class Log implements fr.polytech.codev.backend.entities.Entity {
     private LocalDateTime lastUpdate;
 
     @JsonbProperty("userId")
-    @JsonbTypeAdapter(UserAdapter.class)
+    @JsonbTypeAdapter(UserIdJsonbAdapter.class)
     @NotNull(message = "The user can't be null!")
     @ManyToOne
     @JoinColumn(name = "user")

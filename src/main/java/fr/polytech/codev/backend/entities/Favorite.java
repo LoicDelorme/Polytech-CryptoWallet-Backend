@@ -1,7 +1,7 @@
 package fr.polytech.codev.backend.entities;
 
-import fr.polytech.codev.backend.adapters.CryptocurrencyAdapter;
-import fr.polytech.codev.backend.adapters.UserAdapter;
+import fr.polytech.codev.backend.adapters.CryptocurrencyJsonbAdapter;
+import fr.polytech.codev.backend.adapters.UserIdJsonbAdapter;
 import fr.polytech.codev.backend.entities.pks.FavoritePk;
 import lombok.Data;
 
@@ -16,15 +16,14 @@ import javax.persistence.*;
 @IdClass(FavoritePk.class)
 public class Favorite implements fr.polytech.codev.backend.entities.Entity {
 
-    @JsonbProperty("cryptocurrencyId")
-    @JsonbTypeAdapter(CryptocurrencyAdapter.class)
+    @JsonbTypeAdapter(CryptocurrencyJsonbAdapter.class)
     @Id
     @ManyToOne
     @JoinColumn(name = "cryptocurrency")
     private Cryptocurrency cryptocurrency;
 
     @JsonbProperty("userId")
-    @JsonbTypeAdapter(UserAdapter.class)
+    @JsonbTypeAdapter(UserIdJsonbAdapter.class)
     @Id
     @ManyToOne
     @JoinColumn(name = "user")
