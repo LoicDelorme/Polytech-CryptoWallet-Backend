@@ -3,7 +3,6 @@ package fr.polytech.codev.backend.entities;
 import lombok.Data;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -43,11 +42,9 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "password")
     private String password;
 
-    @JsonbProperty("isEnabled")
     @Column(name = "is_enabled")
     private boolean isEnabled;
 
-    @JsonbProperty("isAdministrator")
     @Column(name = "is_administrator")
     private boolean isAdministrator;
 
