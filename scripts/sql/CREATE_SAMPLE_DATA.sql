@@ -12,9 +12,9 @@ INSERT INTO favorites VALUES (2, 2);
 INSERT INTO favorites VALUES (3, 2);
 INSERT INTO favorites VALUES (4, 2);
 
-INSERT INTO settings VALUES (1, 'Light setting', 'light', now(), now(), 1);
-INSERT INTO settings VALUES (2, 'Dark setting', 'dark', now(), now(), 1);
-INSERT INTO settings VALUES (3, 'Setting n° 1', 'light', now(), now(), 2);
+INSERT INTO settings VALUES (1, 'Light setting', 'light', '1D', now(), now(), 1);
+INSERT INTO settings VALUES (2, 'Dark setting', 'dark', '1Y', now(), now(), 1);
+INSERT INTO settings VALUES (3, 'Setting n° 1', 'light', '3M', now(), now(), 2);
 
 INSERT INTO alerts VALUES (1, 'ETH = 0.002467', '0.002467', false, false, now(), now(), 1, 2, 1);
 INSERT INTO alerts VALUES (2, 'BCH = 0.00467', '0.00467', false, true, now(), now(), 1, 3, 1);

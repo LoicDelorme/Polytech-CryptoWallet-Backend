@@ -9,5 +9,7 @@ public class SettingForm {
 
     private String theme;
 
+    private String chartPeriod;
+
     private int userId;
 }
