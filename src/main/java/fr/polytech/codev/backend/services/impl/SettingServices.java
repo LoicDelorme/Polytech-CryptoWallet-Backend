@@ -42,6 +42,7 @@ public class SettingServices extends AbstractServices {
         final Setting setting = new Setting();
         setting.setName(settingForm.getName());
         setting.setTheme(settingForm.getTheme());
+        setting.setChartPeriod(settingForm.getChartPeriod());
         setting.setCreationDate(LocalDateTime.now());
         setting.setLastUpdate(LocalDateTime.now());
         setting.setUser(this.userDaoRepository.get(settingForm.getUserId()));
@@ -60,6 +61,7 @@ public class SettingServices extends AbstractServices {
 
         setting.setName(settingForm.getName());
         setting.setTheme(settingForm.getTheme());
+        setting.setChartPeriod(settingForm.getChartPeriod());
         setting.setLastUpdate(LocalDateTime.now());
 
         validate(setting);
