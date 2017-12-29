@@ -64,6 +64,7 @@ CREATE TABLE settings (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(250) NOT NULL,
     theme VARCHAR(250) NOT NULL,
+    chart_period VARCHAR(3) NOT NULL,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
     user INT NOT NULL,

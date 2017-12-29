@@ -34,6 +34,11 @@ public class Setting implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "theme")
     private String theme;
 
+    @NotBlank(message = "The chart period can't be blank!")
+    @Size(message = "The chart period can't exceed 3 characters!", max = 3)
+    @Column(name = "chart_period")
+    private String chartPeriod;
+
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The creation date can't be null!")
     @PastOrPresent(message = "The creation date can't be in the future!")
