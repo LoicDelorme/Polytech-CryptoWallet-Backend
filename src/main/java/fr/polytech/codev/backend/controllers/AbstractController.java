@@ -4,7 +4,6 @@ import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
 import fr.polytech.codev.backend.exceptions.*;
-import fr.polytech.codev.backend.forms.TokenForm;
 import fr.polytech.codev.backend.responses.AbstractResponse;
 import fr.polytech.codev.backend.responses.FailureResponse;
 import fr.polytech.codev.backend.responses.SuccessResponse;
@@ -78,10 +77,6 @@ public abstract class AbstractController {
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
 
-        final TokenForm tokenForm = new TokenForm();
-        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
-
-        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
@@ -91,10 +86,6 @@ public abstract class AbstractController {
         assertUserIsEnabled(token);
         assertUserIsUser(token, requestedId);
 
-        final TokenForm tokenForm = new TokenForm();
-        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
-
-        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
@@ -104,10 +95,6 @@ public abstract class AbstractController {
         assertUserIsEnabled(token);
         assertUserIsAdministrator(token);
 
-        final TokenForm tokenForm = new TokenForm();
-        tokenForm.setEndDate(LocalDateTime.now().plusDays(DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE));
-
-        this.tokenServices.update(token.getId(), tokenForm);
         this.userServices.updateLastActivity(token.getUser().getId());
     }
 
