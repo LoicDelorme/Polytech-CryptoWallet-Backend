@@ -22,7 +22,7 @@ import java.util.List;
 
 public abstract class AbstractController {
 
-    public static final int DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE = 1;
+    public static final int DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE = 7;
 
     private static Logger logger = LoggerFactory.getLogger(AbstractController.class);
 
