@@ -35,7 +35,7 @@ public class Setting implements fr.polytech.codev.backend.entities.Entity {
     private String theme;
 
     @NotBlank(message = "The chart period can't be blank!")
-    @Size(message = "The chart period can't exceed 3 characters!", max = 3)
+    @Size(message = "The chart period can't exceed 2 characters!", max = 2)
     @Column(name = "chart_period")
     private String chartPeriod;
 
