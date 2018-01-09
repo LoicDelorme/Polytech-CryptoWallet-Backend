@@ -1,17 +1,16 @@
 package fr.polytech.codev.backend.entities;
 
-import fr.polytech.codev.backend.adapters.UserIdJsonbAdapter;
+import fr.polytech.codev.backend.adapters.ChartPeriodJsonbAdapter;
+import fr.polytech.codev.backend.adapters.CurrencyJsonbAdapter;
+import fr.polytech.codev.backend.adapters.ThemeJsonbAdapter;
 import lombok.Data;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,21 +22,6 @@ public class Setting implements fr.polytech.codev.backend.entities.Entity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @NotBlank(message = "The name can't be blank!")
-    @Size(message = "The name can't exceed 250 characters!", max = 250)
-    @Column(name = "name")
-    private String name;
-
-    @NotBlank(message = "The theme can't be blank!")
-    @Size(message = "The theme can't exceed 250 characters!", max = 250)
-    @Column(name = "theme")
-    private String theme;
-
-    @NotBlank(message = "The chart period can't be blank!")
-    @Size(message = "The chart period can't exceed 3 characters!", max = 3)
-    @Column(name = "chart_period")
-    private String chartPeriod;
 
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The creation date can't be null!")
@@ -51,10 +35,21 @@ public class Setting implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @JsonbProperty("userId")
-    @JsonbTypeAdapter(UserIdJsonbAdapter.class)
-    @NotNull(message = "The user can't be null!")
+    @JsonbTypeAdapter(ThemeJsonbAdapter.class)
+    @NotNull(message = "The theme can't be null!")
     @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "theme")
+    private Theme theme;
+
+    @JsonbTypeAdapter(CurrencyJsonbAdapter.class)
+    @NotNull(message = "The currency can't be null!")
+    @ManyToOne
+    @JoinColumn(name = "currency")
+    private Currency currency;
+
+    @JsonbTypeAdapter(ChartPeriodJsonbAdapter.class)
+    @NotNull(message = "The chart period can't be null!")
+    @ManyToOne
+    @JoinColumn(name = "chart_period")
+    private ChartPeriod chartPeriod;
 }

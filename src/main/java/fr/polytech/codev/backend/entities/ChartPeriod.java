@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "cryptocurrencies")
-public class Cryptocurrency implements fr.polytech.codev.backend.entities.Entity {
+@Table(name = "chart_periods")
+public class ChartPeriod implements fr.polytech.codev.backend.entities.Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,21 +25,6 @@ public class Cryptocurrency implements fr.polytech.codev.backend.entities.Entity
     @Size(message = "The name can't exceed 250 characters!", max = 250)
     @Column(name = "name")
     private String name;
-
-    @NotBlank(message = "The symbol can't be blank!")
-    @Size(message = "The symbol can't exceed 250 characters!", max = 250)
-    @Column(name = "symbol")
-    private String symbol;
-
-    @NotBlank(message = "The image url can't be blank!")
-    @Size(message = "The image url can't exceed 250 characters!", max = 250)
-    @Column(name = "image_url")
-    private String imageUrl;
-
-    @NotBlank(message = "The resource url can't be blank!")
-    @Size(message = "The resource url can't exceed 250 characters!", max = 250)
-    @Column(name = "resource_url")
-    private String resourceUrl;
 
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The creation date can't be null!")
