@@ -22,7 +22,7 @@ public class ChartPeriod implements fr.polytech.codev.backend.entities.Entity {
     private int id;
 
     @NotBlank(message = "The name can't be blank!")
-    @Size(message = "The name can't exceed 250 characters!", max = 250)
+    @Size(message = "The name can't exceed 3 characters!", max = 3)
     @Column(name = "name")
     private String name;
 

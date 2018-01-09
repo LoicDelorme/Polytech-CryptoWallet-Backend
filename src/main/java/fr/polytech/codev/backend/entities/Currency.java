@@ -27,7 +27,7 @@ public class Currency implements fr.polytech.codev.backend.entities.Entity {
     private String name;
 
     @NotBlank(message = "The symbol can't be blank!")
-    @Size(message = "The symbol can't exceed 250 characters!", max = 250)
+    @Size(message = "The symbol can't exceed 3 characters!", max = 3)
     @Column(name = "symbol")
     private String symbol;
 
