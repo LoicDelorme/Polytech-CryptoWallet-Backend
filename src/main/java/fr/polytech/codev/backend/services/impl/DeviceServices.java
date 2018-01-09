@@ -8,8 +8,11 @@ import fr.polytech.codev.backend.repositories.DaoRepository;
 import fr.polytech.codev.backend.services.AbstractServices;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeviceServices extends AbstractServices {
 
@@ -32,6 +35,18 @@ public class DeviceServices extends AbstractServices {
         }
 
         return device;
+    }
+
+    public List<Device> getByUuid(String value) throws UnknownEntityException {
+        final Map<String, Serializable> parameters = new HashMap<String, Serializable>();
+        parameters.put("uuid", value);
+
+        final List<Device> devices = this.deviceDaoRepository.filter(parameters);
+        if (devices == null) {
+            throw new UnknownEntityException();
+        }
+
+        return devices;
     }
 
     public Device insert(DeviceForm deviceForm) throws InvalidEntityException {
