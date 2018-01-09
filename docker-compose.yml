@@ -5,18 +5,52 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=CryptoWalletRootPassword
+      - MYSQL_ROOT_PASSWORD = CryptoWalletRootPassword
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   cryptowallet-backend-container:
-      container_name: "cryptowallet-backend-container"
+      container_name: cryptowallet-backend-container
       depends_on:
         - mysql-db-container
       image: delormeloic26/cryptowallet-backend
       links:
         - mysql-db-container
-      ports:
-        - "80:8090"
       restart: always
+      environment:
+        - VIRTUAL_PORT = 8090
+        - VIRTUAL_HOST = cryptowallet.loic-delorme.fr
+        - VIRTUAL_PROTO = https
+        - LETSENCRYPT_HOST = cryptowallet.loic-delorme.fr
+        - LETSENCRYPT_EMAIL = loic.delorme.pro@gmail.com
+
+  cryptowallet-nginx-proxy-container:
+      container_name: cryptowallet-nginx-proxy-container
+      depends_on:
+        - cryptowallet-backend-container
+      image: jwilder/nginx-proxy:alpine
+      restart: always
+      environment:
+        - ENABLE_IPV6 = true
+        - HTTPS_METHOD = nohttp
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./config/nginx/certs:/etc/nginx/certs:ro
+        - /etc/nginx/vhost.d
+        - /usr/share/nginx/html
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  cryptowallet-nginx-proxy-companion-container:
+      container_name: cryptowallet-nginx-proxy-companion-container
+      depends_on:
+        - cryptowallet-backend-container
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      restart: always
+      volumes:
+        - ./config/nginx/certs:/etc/nginx/certs:rw
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      volumes_from:
+        - cryptowallet-nginx-proxy-container
