@@ -18,45 +18,45 @@ public class AdministratorAssetController extends AbstractController {
     private AssetServices assetServices;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity all(@PathVariable String token) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity all(@PathVariable String token) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.assetServices.all());
     }
 
     @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity get(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity get(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.assetServices.get(walletId, cryptocurrencyId));
     }
 
     @RequestMapping(value = "wallet/{walletId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByWallet(@PathVariable String token, @PathVariable int walletId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity getByWallet(@PathVariable String token, @PathVariable int walletId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.assetServices.getByWallet(walletId));
     }
 
     @RequestMapping(value = "cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.assetServices.getByCryptocurrency(cryptocurrencyId));
     }
 
     @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity insert(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity insert(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
-        return serializeSuccessResponse(this.assetServices.insert(walletId, cryptocurrencyId, deserialize(data, AssetForm.class)));
+        return serializeSuccessResponse("The asset was successfully inserted!", this.assetServices.insert(walletId, cryptocurrencyId, deserialize(data, AssetForm.class)));
     }
 
     @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity update(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity update(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
-        return serializeSuccessResponse(this.assetServices.update(walletId, cryptocurrencyId, deserialize(data, AssetForm.class)));
+        return serializeSuccessResponse("The asset was successfully updated!", this.assetServices.update(walletId, cryptocurrencyId, deserialize(data, AssetForm.class)));
     }
 
     @RequestMapping(value = "wallet/{walletId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity delete(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity delete(@PathVariable String token, @PathVariable int walletId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         this.assetServices.delete(walletId, cryptocurrencyId);
-        return serializeSuccessResponse();
+        return serializeSuccessResponse("The asset was successfully deleted!");
     }
 }
