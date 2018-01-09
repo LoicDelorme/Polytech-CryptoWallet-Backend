@@ -56,12 +56,16 @@ public abstract class AbstractController {
         return ResponseEntity.status(status).body(abstractStringSerializer.to(response));
     }
 
-    protected ResponseEntity serializeSuccessResponse() {
-        return serializeResponse(HttpStatus.OK, new SuccessResponse());
+    protected <I> ResponseEntity serializeSuccessResponse(String message, I data) {
+        return serializeResponse(HttpStatus.OK, new SuccessResponse(message, data));
+    }
+
+    protected ResponseEntity serializeSuccessResponse(String message) {
+        return serializeSuccessResponse(message, null);
     }
 
     protected <I> ResponseEntity serializeSuccessResponse(I data) {
-        return serializeResponse(HttpStatus.OK, new SuccessResponse(data));
+        return serializeSuccessResponse(null, data);
     }
 
     protected <I> ResponseEntity serializeFailureResponse(HttpStatus status, String message, I data) {
