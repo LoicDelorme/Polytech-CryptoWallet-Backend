@@ -11,7 +11,7 @@
 - LAFAYE DE MICHEAUX Yoan
 
 ## Global database scheme
-![](BDD_V1.4.png)
+![](BDD_V1.5.png)
 
 ## Getting started
 - Clone Polytech-CryptoWallet-Backend project
