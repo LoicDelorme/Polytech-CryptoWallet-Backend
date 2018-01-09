@@ -2,14 +2,12 @@ package fr.polytech.codev.backend.forms;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class TokenForm {
-
-    private LocalDateTime endDate;
+public class DeviceForm {
 
     private String platform;
+
+    private String uuid;
 
     private int userId;
 }

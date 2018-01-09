@@ -7,5 +7,7 @@ public class LogForm {
 
     private String ipAddress;
 
+    private String platform;
+
     private int userId;
 }

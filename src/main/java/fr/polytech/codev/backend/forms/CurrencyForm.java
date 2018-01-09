@@ -3,13 +3,9 @@ package fr.polytech.codev.backend.forms;
 import lombok.Data;
 
 @Data
-public class CryptocurrencyForm {
+public class CurrencyForm {
 
     private String name;
 
     private String symbol;
-
-    private String imageUrl;
-
-    private String resourceUrl;
 }
