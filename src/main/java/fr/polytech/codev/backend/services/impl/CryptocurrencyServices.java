@@ -39,7 +39,6 @@ public class CryptocurrencyServices extends AbstractServices {
         cryptocurrency.setName(cryptocurrencyForm.getName());
         cryptocurrency.setSymbol(cryptocurrencyForm.getSymbol());
         cryptocurrency.setImageUrl(cryptocurrencyForm.getImageUrl());
-        cryptocurrency.setBaseUrl(cryptocurrencyForm.getBaseUrl());
         cryptocurrency.setResourceUrl(cryptocurrencyForm.getResourceUrl());
         cryptocurrency.setCreationDate(LocalDateTime.now());
         cryptocurrency.setLastUpdate(LocalDateTime.now());
@@ -51,15 +50,10 @@ public class CryptocurrencyServices extends AbstractServices {
     }
 
     public Cryptocurrency update(int id, CryptocurrencyForm cryptocurrencyForm) throws UnknownEntityException, InvalidEntityException {
-        final Cryptocurrency cryptocurrency = this.cryptocurrencyDaoRepository.get(id);
-        if (cryptocurrency == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Cryptocurrency cryptocurrency = get(id);
         cryptocurrency.setName(cryptocurrencyForm.getName());
         cryptocurrency.setSymbol(cryptocurrencyForm.getSymbol());
         cryptocurrency.setImageUrl(cryptocurrencyForm.getImageUrl());
-        cryptocurrency.setBaseUrl(cryptocurrencyForm.getBaseUrl());
         cryptocurrency.setResourceUrl(cryptocurrencyForm.getResourceUrl());
         cryptocurrency.setLastUpdate(LocalDateTime.now());
 
@@ -70,11 +64,6 @@ public class CryptocurrencyServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Cryptocurrency cryptocurrency = this.cryptocurrencyDaoRepository.get(id);
-        if (cryptocurrency == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.cryptocurrencyDaoRepository.delete(cryptocurrency);
+        this.cryptocurrencyDaoRepository.delete(get(id));
     }
 }

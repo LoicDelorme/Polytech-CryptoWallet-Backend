@@ -70,11 +70,7 @@ public class UserServices extends AbstractServices {
     }
 
     public User update(int id, UserForm userForm) throws UnknownEntityException, InvalidEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
+        final User user = get(id);
         user.setLastname(userForm.getLastname());
         user.setFirstname(userForm.getFirstname());
         user.setEmail(userForm.getEmail());
@@ -91,21 +87,13 @@ public class UserServices extends AbstractServices {
     }
 
     public void updateLastActivity(int id) throws UnknownEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
+        final User user = get(id);
         user.setLastActivity(LocalDateTime.now());
+
         this.userDaoRepository.update(user);
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.userDaoRepository.delete(user);
+        this.userDaoRepository.delete(get(id));
     }
 }

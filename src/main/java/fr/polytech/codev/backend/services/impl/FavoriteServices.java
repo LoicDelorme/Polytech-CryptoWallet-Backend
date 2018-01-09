@@ -85,15 +85,6 @@ public class FavoriteServices extends AbstractServices {
     }
 
     public void delete(int userId, int cryptocurrencyId) throws UnknownEntityException {
-        final FavoritePk favoritePk = new FavoritePk();
-        favoritePk.setUser(this.userDaoRepository.get(userId));
-        favoritePk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
-
-        final Favorite favorite = this.favoriteDaoRepository.get(favoritePk);
-        if (favorite == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.favoriteDaoRepository.delete(favorite);
+        this.favoriteDaoRepository.delete(get(userId, cryptocurrencyId));
     }
 }

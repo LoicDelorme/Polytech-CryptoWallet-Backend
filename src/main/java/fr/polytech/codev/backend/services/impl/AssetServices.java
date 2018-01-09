@@ -87,15 +87,7 @@ public class AssetServices extends AbstractServices {
     }
 
     public Asset update(int walletId, int cryptocurrencyId, AssetForm assetForm) throws UnknownEntityException, InvalidEntityException {
-        final AssetPk assetPk = new AssetPk();
-        assetPk.setWallet(this.walletDaoRepository.get(walletId));
-        assetPk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
-
-        final Asset asset = this.assetDaoRepository.get(assetPk);
-        if (asset == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Asset asset = get(walletId, cryptocurrencyId);
         asset.setAmount(assetForm.getAmount());
         asset.setPurchasePrice(assetForm.getPurchasePrice());
 
@@ -106,15 +98,6 @@ public class AssetServices extends AbstractServices {
     }
 
     public void delete(int walletId, int cryptocurrencyId) throws UnknownEntityException {
-        final AssetPk assetPk = new AssetPk();
-        assetPk.setWallet(this.walletDaoRepository.get(walletId));
-        assetPk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
-
-        final Asset asset = this.assetDaoRepository.get(assetPk);
-        if (asset == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.assetDaoRepository.delete(asset);
+        this.assetDaoRepository.delete(get(walletId, cryptocurrencyId));
     }
 }
