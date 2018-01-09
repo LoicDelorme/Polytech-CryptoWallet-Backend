@@ -31,8 +31,23 @@ public class BackendApplication {
     }
 
     @Bean
+    public DaoRepository<ChartPeriod> chartPeriodDaoRepository() {
+        return new ChartPeriodSqlDaoRepository();
+    }
+
+    @Bean
     public DaoRepository<Cryptocurrency> cryptocurrencyDaoServices() {
         return new CryptocurrencySqlDaoRepository();
+    }
+
+    @Bean
+    public DaoRepository<Currency> currencyDaoServices() {
+        return new CurrencySqlDaoRepository();
+    }
+
+    @Bean
+    public DaoRepository<Device> deviceDaoServices() {
+        return new DeviceSqlDaoRepository();
     }
 
     @Bean
@@ -48,6 +63,11 @@ public class BackendApplication {
     @Bean
     public DaoRepository<Setting> settingDaoServices() {
         return new SettingSqlDaoRepository();
+    }
+
+    @Bean
+    public DaoRepository<Theme> themeDaoServices() {
+        return new ThemeSqlDaoRepository();
     }
 
     @Bean
@@ -81,8 +101,23 @@ public class BackendApplication {
     }
 
     @Bean
+    public ChartPeriodServices chartPeriodServices() {
+        return new ChartPeriodServices();
+    }
+
+    @Bean
     public CryptocurrencyServices cryptocurrencyServices() {
         return new CryptocurrencyServices();
+    }
+
+    @Bean
+    public CurrencyServices currencyServices() {
+        return new CurrencyServices();
+    }
+
+    @Bean
+    public DeviceServices deviceServices() {
+        return new DeviceServices();
     }
 
     @Bean
@@ -98,6 +133,11 @@ public class BackendApplication {
     @Bean
     public SettingServices settingServices() {
         return new SettingServices();
+    }
+
+    @Bean
+    public ThemeServices themeServices() {
+        return new ThemeServices();
     }
 
     @Bean
