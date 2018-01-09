@@ -8,4 +8,8 @@ public class AuthenticationForm {
     private String email;
 
     private String password;
+
+    private String deviceUuid;
+
+    private String devicePlatform;
 }
