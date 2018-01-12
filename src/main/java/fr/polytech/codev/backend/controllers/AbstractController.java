@@ -3,7 +3,11 @@ package fr.polytech.codev.backend.controllers;
 import fr.polytech.codev.backend.deserializers.AbstractStringDeserializer;
 import fr.polytech.codev.backend.deserializers.JsonStringDeserializer;
 import fr.polytech.codev.backend.entities.Token;
-import fr.polytech.codev.backend.exceptions.*;
+import fr.polytech.codev.backend.entities.User;
+import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
+import fr.polytech.codev.backend.exceptions.InvalidTokenException;
+import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
+import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.responses.AbstractResponse;
 import fr.polytech.codev.backend.responses.FailureResponse;
 import fr.polytech.codev.backend.responses.SuccessResponse;
@@ -21,6 +25,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public abstract class AbstractController {
+
+    public static final int DEFAULT_THEME_ID_VALUE = 1;
+
+    public static final int DEFAULT_CURRENCY_ID_VALUE = 1;
+
+    public static final int DEFAULT_CHART_PERIOD_ID_VALUE = 1;
+
+    public static final boolean DEFAULT_IS_ADMINISTRATOR_VALUE = false;
+
+    public static final boolean DEFAULT_IS_ENABLED_VALUE = true;
 
     public static final int DEFAULT_TOKEN_END_DATE_PLUS_DAY_VALUE = 7;
 
@@ -72,39 +86,36 @@ public abstract class AbstractController {
         return serializeResponse(status, new FailureResponse(message, data));
     }
 
-    public <O> O deserialize(String data, Class<O> outputType) {
+    protected <O> O deserialize(String data, Class<O> outputType) {
         return abstractStringDeserializer.from(data, outputType);
     }
 
-    public void assertIsUser(String tokenValue) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    protected User assertIsUser(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
 
-        this.userServices.updateLastActivity(token.getUser().getId());
+        final User user = token.getUser();
+        this.userServices.updateLastActivity(user.getId());
+
+        return user;
     }
 
-    public void assertUserIsUser(String tokenValue, int requestedId) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
-        final Token token = getToken(tokenValue);
-        assertTokenIsValid(token);
-        assertUserIsEnabled(token);
-        assertUserIsUser(token, requestedId);
-
-        this.userServices.updateLastActivity(token.getUser().getId());
-    }
-
-    public void assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    protected User assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
         assertUserIsAdministrator(token);
 
-        this.userServices.updateLastActivity(token.getUser().getId());
+        final User user = token.getUser();
+        this.userServices.updateLastActivity(user.getId());
+
+        return user;
     }
 
     private Token getToken(String tokenValue) throws UnknownEntityException, InvalidTokenException {
         final List<Token> tokens = this.tokenServices.getByValue(tokenValue);
-        if (tokens.size() != 1) {
+        if (tokens.isEmpty()) {
             throw new InvalidTokenException();
         }
 
@@ -119,12 +130,6 @@ public abstract class AbstractController {
 
     private void assertUserIsEnabled(Token token) throws UnauthorizedUserException {
         if (!token.getUser().isEnabled()) {
-            throw new UnauthorizedUserException();
-        }
-    }
-
-    private void assertUserIsUser(Token token, int requestedId) throws UnauthorizedUserException {
-        if (token.getUser().getId() != requestedId) {
             throw new UnauthorizedUserException();
         }
     }
