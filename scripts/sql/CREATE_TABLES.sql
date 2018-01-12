@@ -79,10 +79,11 @@ CREATE TABLE favorites (
 CREATE TABLE devices (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     platform VARCHAR(250) NOT NULL,
-    uuid VARCHAR(250) NOT NULL UNIQUE,
+    uuid VARCHAR(250) NOT NULL,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
     user INT NOT NULL,
+    UNIQUE (user, uuid),
     FOREIGN KEY (user) REFERENCES users (id)
 );
 
