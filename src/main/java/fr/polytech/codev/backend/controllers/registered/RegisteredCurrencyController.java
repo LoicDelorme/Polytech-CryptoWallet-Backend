@@ -5,7 +5,7 @@ import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
 import fr.polytech.codev.backend.exceptions.InvalidTokenException;
 import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
-import fr.polytech.codev.backend.services.impl.AlertTypeServices;
+import fr.polytech.codev.backend.services.impl.CurrencyServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/cryptowallet/registered/{token}/alert-type")
-public class RegisteredAlertTypeController extends AbstractController {
+@RequestMapping("/api/cryptowallet/registered/{token}/currency")
+public class RegisteredCurrencyController extends AbstractController {
 
     @Autowired
-    private AlertTypeServices alertTypeServices;
+    private CurrencyServices currencyServices;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity all(@PathVariable String token) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertIsUser(token);
-        return serializeSuccessResponse(this.alertTypeServices.all());
+        return serializeSuccessResponse(this.currencyServices.all());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity get(@PathVariable String token, @PathVariable int id) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertIsUser(token);
-        return serializeSuccessResponse(this.alertTypeServices.get(id));
+        return serializeSuccessResponse(this.currencyServices.get(id));
     }
 }

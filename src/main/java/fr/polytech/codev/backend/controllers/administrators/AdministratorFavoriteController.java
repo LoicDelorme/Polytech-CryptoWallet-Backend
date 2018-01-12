@@ -18,25 +18,25 @@ public class AdministratorFavoriteController extends AbstractController {
     private FavoriteServices favoriteServices;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity all(@PathVariable String token) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    public ResponseEntity all(@PathVariable String token) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.favoriteServices.all());
     }
 
     @RequestMapping(value = "user/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity get(@PathVariable String token, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    public ResponseEntity get(@PathVariable String token, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.favoriteServices.get(userId, cryptocurrencyId));
     }
 
     @RequestMapping(value = "user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByUser(@PathVariable String token, @PathVariable int userId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    public ResponseEntity getByUser(@PathVariable String token, @PathVariable int userId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.favoriteServices.getByUser(userId));
     }
 
     @RequestMapping(value = "cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int cryptocurrencyId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.favoriteServices.getByCryptocurrency(cryptocurrencyId));
     }
@@ -47,8 +47,14 @@ public class AdministratorFavoriteController extends AbstractController {
         return serializeSuccessResponse("The favorite was successfully inserted!", this.favoriteServices.insert(userId, cryptocurrencyId, new FavoriteForm()));
     }
 
+    @RequestMapping(value = "user/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity update(@PathVariable String token, @PathVariable int userId, @PathVariable int cryptocurrencyId, @RequestBody String data) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+        assertUserIsAdministrator(token);
+        return serializeSuccessResponse("The favorite was successfully updated!", this.favoriteServices.update(userId, cryptocurrencyId, new FavoriteForm()));
+    }
+
     @RequestMapping(value = "user/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity delete(@PathVariable String token, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    public ResponseEntity delete(@PathVariable String token, @PathVariable int userId, @PathVariable int cryptocurrencyId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         this.favoriteServices.delete(userId, cryptocurrencyId);
         return serializeSuccessResponse("The favorite was successfully deleted!");
