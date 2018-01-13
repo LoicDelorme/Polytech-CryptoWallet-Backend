@@ -29,16 +29,16 @@ public class AdministratorFavoriteController extends AbstractController {
         return serializeSuccessResponse(this.favoriteServices.get(userId, cryptocurrencyId));
     }
 
-    @RequestMapping(value = "user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByUser(@PathVariable String token, @PathVariable int userId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    @RequestMapping(value = "user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getByUser(@PathVariable String token, @PathVariable int id) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
-        return serializeSuccessResponse(this.favoriteServices.getByUser(userId));
+        return serializeSuccessResponse(this.favoriteServices.getByUser(id));
     }
 
-    @RequestMapping(value = "cryptocurrency/{cryptocurrencyId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int cryptocurrencyId) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
+    @RequestMapping(value = "cryptocurrency/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity getByCryptocurrency(@PathVariable String token, @PathVariable int id) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
-        return serializeSuccessResponse(this.favoriteServices.getByCryptocurrency(cryptocurrencyId));
+        return serializeSuccessResponse(this.favoriteServices.getByCryptocurrency(id));
     }
 
     @RequestMapping(value = "user/{userId}/cryptocurrency/{cryptocurrencyId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
