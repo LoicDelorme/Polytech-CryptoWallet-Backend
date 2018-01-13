@@ -165,7 +165,7 @@ public class RegisteredUserController extends AbstractController {
     }
 
     @RequestMapping(value = "/device/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity setting(@PathVariable String token, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity device(@PathVariable String token, @PathVariable int id) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final User user = assertIsUser(token);
         final List<Device> devices = user.getDevices().stream().filter(device -> device.getId() == id).collect(Collectors.toList());
         if (devices.isEmpty()) {
