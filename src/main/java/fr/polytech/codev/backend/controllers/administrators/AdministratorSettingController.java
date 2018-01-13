@@ -29,12 +29,6 @@ public class AdministratorSettingController extends AbstractController {
         return serializeSuccessResponse(this.settingServices.get(id));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity insert(@PathVariable String token, @RequestBody String data) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
-        assertUserIsAdministrator(token);
-        return serializeSuccessResponse("The setting was successfully inserted!", this.settingServices.insert(deserialize(data, SettingForm.class)));
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity update(@PathVariable String token, @PathVariable int id, @RequestBody String data) throws InvalidTokenException, InvalidEntityException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
