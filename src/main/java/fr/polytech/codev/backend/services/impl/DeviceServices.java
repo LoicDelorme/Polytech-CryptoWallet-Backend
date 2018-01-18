@@ -1,6 +1,7 @@
 package fr.polytech.codev.backend.services.impl;
 
 import fr.polytech.codev.backend.entities.Device;
+import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.DeviceForm;
@@ -18,6 +19,9 @@ public class DeviceServices extends AbstractServices {
 
     @Autowired
     private DaoRepository<Device> deviceDaoRepository;
+
+    @Autowired
+    private DaoRepository<User> userDaoRepository;
 
     public List<Device> all() throws UnknownEntityException {
         final List<Device> devices = this.deviceDaoRepository.getAll();
@@ -55,6 +59,7 @@ public class DeviceServices extends AbstractServices {
         device.setUuid(deviceForm.getUuid());
         device.setCreationDate(LocalDateTime.now());
         device.setLastUpdate(LocalDateTime.now());
+        device.setUser(this.userDaoRepository.get(deviceForm.getUserId()));
 
         validate(device);
         this.deviceDaoRepository.insert(device);
