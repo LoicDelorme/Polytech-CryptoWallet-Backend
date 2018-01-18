@@ -81,6 +81,7 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
 
     @JsonbTransient
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "setting")
     private Setting setting;
 
     @JsonbTransient
