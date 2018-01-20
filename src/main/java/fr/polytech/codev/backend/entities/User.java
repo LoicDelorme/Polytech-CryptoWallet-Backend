@@ -80,7 +80,7 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     private List<Alert> alerts = new ArrayList<Alert>();
 
     @JsonbTransient
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "setting")
     private Setting setting;
 
