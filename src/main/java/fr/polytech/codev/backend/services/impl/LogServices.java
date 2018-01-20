@@ -41,6 +41,7 @@ public class LogServices extends AbstractServices {
     public Log insert(LogForm logForm) throws InvalidEntityException {
         final Log log = new Log();
         log.setIpAddress(logForm.getIpAddress());
+        log.setPlatform(logForm.getPlatform());
         log.setCreationDate(LocalDateTime.now());
         log.setLastUpdate(LocalDateTime.now());
         log.setUser(this.userDaoRepository.get(logForm.getUserId()));
@@ -52,12 +53,9 @@ public class LogServices extends AbstractServices {
     }
 
     public Log update(int id, LogForm logForm) throws UnknownEntityException, InvalidEntityException {
-        final Log log = this.logDaoRepository.get(id);
-        if (log == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Log log = get(id);
         log.setIpAddress(logForm.getIpAddress());
+        log.setPlatform(logForm.getPlatform());
         log.setLastUpdate(LocalDateTime.now());
 
         validate(log);
@@ -67,11 +65,6 @@ public class LogServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Log log = this.logDaoRepository.get(id);
-        if (log == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.logDaoRepository.delete(log);
+        this.logDaoRepository.delete(get(id));
     }
 }

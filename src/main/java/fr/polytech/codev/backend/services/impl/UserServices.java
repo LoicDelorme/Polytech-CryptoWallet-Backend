@@ -1,5 +1,6 @@
 package fr.polytech.codev.backend.services.impl;
 
+import fr.polytech.codev.backend.entities.Setting;
 import fr.polytech.codev.backend.entities.User;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
@@ -19,6 +20,9 @@ public class UserServices extends AbstractServices {
 
     @Autowired
     private DaoRepository<User> userDaoRepository;
+
+    @Autowired
+    private DaoRepository<Setting> settingDaoRepository;
 
     public List<User> all() throws UnknownEntityException {
         final List<User> users = this.userDaoRepository.getAll();
@@ -62,6 +66,7 @@ public class UserServices extends AbstractServices {
         user.setCreationDate(LocalDateTime.now());
         user.setLastUpdate(LocalDateTime.now());
         user.setLastActivity(LocalDateTime.now());
+        user.setSetting(this.settingDaoRepository.get(userForm.getSettingId()));
 
         validate(user);
         this.userDaoRepository.insert(user);
@@ -70,11 +75,7 @@ public class UserServices extends AbstractServices {
     }
 
     public User update(int id, UserForm userForm) throws UnknownEntityException, InvalidEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
+        final User user = get(id);
         user.setLastname(userForm.getLastname());
         user.setFirstname(userForm.getFirstname());
         user.setEmail(userForm.getEmail());
@@ -91,21 +92,13 @@ public class UserServices extends AbstractServices {
     }
 
     public void updateLastActivity(int id) throws UnknownEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
+        final User user = get(id);
         user.setLastActivity(LocalDateTime.now());
+
         this.userDaoRepository.update(user);
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final User user = this.userDaoRepository.get(id);
-        if (user == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.userDaoRepository.delete(user);
+        this.userDaoRepository.delete(get(id));
     }
 }

@@ -65,11 +65,7 @@ public class AlertServices extends AbstractServices {
     }
 
     public Alert update(int id, AlertForm alertForm) throws UnknownEntityException, InvalidEntityException {
-        final Alert alert = this.alertDaoRepository.get(id);
-        if (alert == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Alert alert = get(id);
         alert.setName(alertForm.getName());
         alert.setThreshold(alertForm.getThreshold());
         alert.setOneShot(alertForm.isOneShot());
@@ -85,11 +81,6 @@ public class AlertServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Alert alert = this.alertDaoRepository.get(id);
-        if (alert == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.alertDaoRepository.delete(alert);
+        this.alertDaoRepository.delete(get(id));
     }
 }

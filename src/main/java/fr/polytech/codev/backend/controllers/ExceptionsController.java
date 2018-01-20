@@ -22,6 +22,8 @@ public class ExceptionsController extends AbstractController {
 
     public static final String DEFAULT_UNKNOWN_ENTITY_ERROR_MESSAGE = "The specified ID refer to an unknown entity.";
 
+    public static final String DEFAULT_UNKNOWN_TOKEN_ERROR_MESSAGE = "The specified token refer to an unknown entity.";
+
     public static final String DEFAULT_INVALID_ENTITY_ERROR_MESSAGE = "The provided information are not compliant with defined constraints.";
 
     public static final String DEFAULT_INVALID_TOKEN_ERROR_MESSAGE = "The specified token is invalid.";
@@ -43,6 +45,11 @@ public class ExceptionsController extends AbstractController {
     @ExceptionHandler(UnknownEntityException.class)
     public ResponseEntity handleUnknownEntityException(HttpServletRequest request, UnknownEntityException exception) {
         return generateResponseEntity(request, HttpStatus.NOT_FOUND, DEFAULT_UNKNOWN_ENTITY_ERROR_MESSAGE, exception);
+    }
+
+    @ExceptionHandler(UnknownTokenException.class)
+    public ResponseEntity handleUnknownTokenException(HttpServletRequest request, UnknownTokenException exception) {
+        return generateResponseEntity(request, HttpStatus.NOT_FOUND, DEFAULT_UNKNOWN_TOKEN_ERROR_MESSAGE, exception);
     }
 
     @ExceptionHandler(InvalidEntityException.class)

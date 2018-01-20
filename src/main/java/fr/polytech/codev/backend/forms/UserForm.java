@@ -16,4 +16,6 @@ public class UserForm {
     private boolean isEnabled;
 
     private boolean isAdministrator;
+
+    private int settingId;
 }

@@ -5,11 +5,9 @@ import lombok.Data;
 @Data
 public class SettingForm {
 
-    private String name;
+    private int themeId;
 
-    private String theme;
+    private int currencyId;
 
-    private String chartPeriod;
-
-    private int userId;
+    private int chartPeriodId;
 }

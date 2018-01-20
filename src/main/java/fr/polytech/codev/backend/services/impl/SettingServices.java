@@ -1,7 +1,9 @@
 package fr.polytech.codev.backend.services.impl;
 
+import fr.polytech.codev.backend.entities.ChartPeriod;
+import fr.polytech.codev.backend.entities.Currency;
 import fr.polytech.codev.backend.entities.Setting;
-import fr.polytech.codev.backend.entities.User;
+import fr.polytech.codev.backend.entities.Theme;
 import fr.polytech.codev.backend.exceptions.InvalidEntityException;
 import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.forms.SettingForm;
@@ -18,7 +20,13 @@ public class SettingServices extends AbstractServices {
     private DaoRepository<Setting> settingDaoRepository;
 
     @Autowired
-    private DaoRepository<User> userDaoRepository;
+    private DaoRepository<Theme> themeDaoRepository;
+
+    @Autowired
+    private DaoRepository<Currency> currencyDaoRepository;
+
+    @Autowired
+    private DaoRepository<ChartPeriod> chartPeriodDaoRepository;
 
     public List<Setting> all() throws UnknownEntityException {
         final List<Setting> settings = this.settingDaoRepository.getAll();
@@ -40,12 +48,11 @@ public class SettingServices extends AbstractServices {
 
     public Setting insert(SettingForm settingForm) throws InvalidEntityException {
         final Setting setting = new Setting();
-        setting.setName(settingForm.getName());
-        setting.setTheme(settingForm.getTheme());
-        setting.setChartPeriod(settingForm.getChartPeriod());
         setting.setCreationDate(LocalDateTime.now());
         setting.setLastUpdate(LocalDateTime.now());
-        setting.setUser(this.userDaoRepository.get(settingForm.getUserId()));
+        setting.setTheme(this.themeDaoRepository.get(settingForm.getThemeId()));
+        setting.setCurrency(this.currencyDaoRepository.get(settingForm.getCurrencyId()));
+        setting.setChartPeriod(this.chartPeriodDaoRepository.get(settingForm.getChartPeriodId()));
 
         validate(setting);
         this.settingDaoRepository.insert(setting);
@@ -54,15 +61,11 @@ public class SettingServices extends AbstractServices {
     }
 
     public Setting update(int id, SettingForm settingForm) throws UnknownEntityException, InvalidEntityException {
-        final Setting setting = this.settingDaoRepository.get(id);
-        if (setting == null) {
-            throw new UnknownEntityException();
-        }
-
-        setting.setName(settingForm.getName());
-        setting.setTheme(settingForm.getTheme());
-        setting.setChartPeriod(settingForm.getChartPeriod());
+        final Setting setting = get(id);
         setting.setLastUpdate(LocalDateTime.now());
+        setting.setTheme(this.themeDaoRepository.get(settingForm.getThemeId()));
+        setting.setCurrency(this.currencyDaoRepository.get(settingForm.getCurrencyId()));
+        setting.setChartPeriod(this.chartPeriodDaoRepository.get(settingForm.getChartPeriodId()));
 
         validate(setting);
         this.settingDaoRepository.update(setting);
@@ -71,11 +74,6 @@ public class SettingServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Setting setting = this.settingDaoRepository.get(id);
-        if (setting == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.settingDaoRepository.delete(setting);
+        this.settingDaoRepository.delete(get(id));
     }
 }

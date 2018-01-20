@@ -11,7 +11,5 @@ public class CryptocurrencyForm {
 
     private String imageUrl;
 
-    private String baseUrl;
-
     private String resourceUrl;
 }

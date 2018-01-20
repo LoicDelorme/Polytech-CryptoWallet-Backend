@@ -1,11 +1,33 @@
 USE CryptoWallet;
 
+CREATE TABLE themes (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL UNIQUE,
+    creation_date DATETIME NOT NULL,
+    last_update DATETIME NOT NULL
+);
+
+CREATE TABLE currencies (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL,
+    symbol VARCHAR(3) NOT NULL,
+    creation_date DATETIME NOT NULL,
+    last_update DATETIME NOT NULL,
+    UNIQUE (name, symbol)
+);
+
+CREATE TABLE chart_periods (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(3) NOT NULL UNIQUE,
+    creation_date DATETIME NOT NULL,
+    last_update DATETIME NOT NULL
+);
+
 CREATE TABLE cryptocurrencies (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     name VARCHAR(250) NOT NULL,
     symbol VARCHAR(250) NOT NULL,
     image_url VARCHAR(250) NOT NULL,
-    base_url VARCHAR(250) NOT NULL,
     resource_url VARCHAR(250) NOT NULL,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
@@ -19,6 +41,18 @@ CREATE TABLE alert_types (
     last_update DATETIME NOT NULL
 );
 
+CREATE TABLE settings (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    creation_date DATETIME NOT NULL,
+    last_update DATETIME NOT NULL,
+    theme INT NOT NULL,
+    currency INT NOT NULL,
+    chart_period INT NOT NULL,
+    FOREIGN KEY (theme) REFERENCES themes (id),
+    FOREIGN KEY (currency) REFERENCES currencies (id),
+    FOREIGN KEY (chart_period) REFERENCES chart_periods (id)
+);
+
 CREATE TABLE users (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     lastname VARCHAR(250) NOT NULL,
@@ -29,7 +63,9 @@ CREATE TABLE users (
     is_administrator BOOLEAN NOT NULL DEFAULT false,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
-    last_activity DATETIME NOT NULL
+    last_activity DATETIME NOT NULL,
+    setting INT NOT NULL,
+    FOREIGN KEY (setting) REFERENCES settings (id)
 );
 
 CREATE TABLE favorites (
@@ -40,9 +76,21 @@ CREATE TABLE favorites (
     FOREIGN KEY (user) REFERENCES users (id)
 );
 
+CREATE TABLE devices (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    platform VARCHAR(250) NOT NULL,
+    uuid VARCHAR(250) NOT NULL,
+    creation_date DATETIME NOT NULL,
+    last_update DATETIME NOT NULL,
+    user INT NOT NULL,
+    UNIQUE (user, uuid),
+    FOREIGN KEY (user) REFERENCES users (id)
+);
+
 CREATE TABLE logs (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     ip_address VARCHAR(20) NOT NULL,
+    platform VARCHAR(250) NOT NULL,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
     user INT NOT NULL,
@@ -54,17 +102,7 @@ CREATE TABLE tokens (
     value VARCHAR(36) NOT NULL UNIQUE,
     begin_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
-    creation_date DATETIME NOT NULL,
-    last_update DATETIME NOT NULL,
-    user INT NOT NULL,
-    FOREIGN KEY (user) REFERENCES users (id)
-);
-
-CREATE TABLE settings (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name VARCHAR(250) NOT NULL,
-    theme VARCHAR(250) NOT NULL,
-    chart_period VARCHAR(2) NOT NULL,
+    platform VARCHAR(250) NOT NULL,
     creation_date DATETIME NOT NULL,
     last_update DATETIME NOT NULL,
     user INT NOT NULL,
