@@ -1,7 +1,10 @@
 package fr.polytech.codev.backend.controllers.administrators;
 
 import fr.polytech.codev.backend.controllers.AbstractController;
-import fr.polytech.codev.backend.exceptions.*;
+import fr.polytech.codev.backend.exceptions.ExpiredTokenException;
+import fr.polytech.codev.backend.exceptions.InvalidTokenException;
+import fr.polytech.codev.backend.exceptions.UnauthorizedUserException;
+import fr.polytech.codev.backend.exceptions.UnknownEntityException;
 import fr.polytech.codev.backend.services.impl.LogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,13 +20,13 @@ public class AdministratorLogController extends AbstractController {
     private LogServices logServices;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity all(@PathVariable String token) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity all(@PathVariable String token) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.logServices.all());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity get(@PathVariable String token, @PathVariable int id) throws UnknownEntityException, InvalidEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public ResponseEntity get(@PathVariable String token, @PathVariable int id) throws InvalidTokenException, ExpiredTokenException, UnknownEntityException, UnauthorizedUserException {
         assertUserIsAdministrator(token);
         return serializeSuccessResponse(this.logServices.get(id));
     }

@@ -36,11 +36,6 @@ public class Cryptocurrency implements fr.polytech.codev.backend.entities.Entity
     @Column(name = "image_url")
     private String imageUrl;
 
-    @NotBlank(message = "The base url can't be blank!")
-    @Size(message = "The base url can't exceed 250 characters!", max = 250)
-    @Column(name = "base_url")
-    private String baseUrl;
-
     @NotBlank(message = "The resource url can't be blank!")
     @Size(message = "The resource url can't exceed 250 characters!", max = 250)
     @Column(name = "resource_url")

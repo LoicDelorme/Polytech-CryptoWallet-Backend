@@ -38,6 +38,11 @@ public class Token implements fr.polytech.codev.backend.entities.Entity {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @NotBlank(message = "The platform can't be blank!")
+    @Size(message = "The platform can't exceed 250 characters!", max = 250)
+    @Column(name = "platform")
+    private String platform;
+
     @JsonbDateFormat("dd/MM/yyyy hh:mm:ss")
     @NotNull(message = "The creation date can't be null!")
     @PastOrPresent(message = "The creation date can't be in the future!")

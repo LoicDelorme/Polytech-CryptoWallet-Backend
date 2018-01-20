@@ -84,16 +84,16 @@ public class FavoriteServices extends AbstractServices {
         return favorite;
     }
 
+    public Favorite update(int userId, int cryptocurrencyId, FavoriteForm favoriteForm) throws UnknownEntityException, InvalidEntityException {
+        final Favorite favorite = get(userId, cryptocurrencyId);
+
+        validate(favorite);
+        this.favoriteDaoRepository.update(favorite);
+
+        return favorite;
+    }
+
     public void delete(int userId, int cryptocurrencyId) throws UnknownEntityException {
-        final FavoritePk favoritePk = new FavoritePk();
-        favoritePk.setUser(this.userDaoRepository.get(userId));
-        favoritePk.setCryptocurrency(this.cryptocurrencyDaoRepository.get(cryptocurrencyId));
-
-        final Favorite favorite = this.favoriteDaoRepository.get(favoritePk);
-        if (favorite == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.favoriteDaoRepository.delete(favorite);
+        this.favoriteDaoRepository.delete(get(userId, cryptocurrencyId));
     }
 }

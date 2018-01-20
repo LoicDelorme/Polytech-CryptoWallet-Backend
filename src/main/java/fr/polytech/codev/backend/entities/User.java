@@ -80,8 +80,9 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     private List<Alert> alerts = new ArrayList<Alert>();
 
     @JsonbTransient
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
-    private List<Setting> settings = new ArrayList<Setting>();
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "setting")
+    private Setting setting;
 
     @JsonbTransient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
@@ -90,4 +91,8 @@ public class User implements fr.polytech.codev.backend.entities.Entity {
     @JsonbTransient
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Log> logs = new ArrayList<Log>();
+
+    @JsonbTransient
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private List<Device> devices = new ArrayList<Device>();
 }

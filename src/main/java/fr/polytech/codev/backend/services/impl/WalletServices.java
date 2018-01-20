@@ -52,11 +52,7 @@ public class WalletServices extends AbstractServices {
     }
 
     public Wallet update(int id, WalletForm walletForm) throws UnknownEntityException, InvalidEntityException {
-        final Wallet wallet = this.walletDaoRepository.get(id);
-        if (wallet == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Wallet wallet = get(id);
         wallet.setName(walletForm.getName());
         wallet.setLastUpdate(LocalDateTime.now());
 
@@ -67,11 +63,6 @@ public class WalletServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Wallet wallet = this.walletDaoRepository.get(id);
-        if (wallet == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.walletDaoRepository.delete(wallet);
+        this.walletDaoRepository.delete(get(id));
     }
 }

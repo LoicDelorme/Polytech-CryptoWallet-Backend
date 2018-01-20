@@ -59,6 +59,7 @@ public class TokenServices extends AbstractServices {
         token.setValue(UUID.randomUUID().toString());
         token.setBeginDate(LocalDateTime.now());
         token.setEndDate(tokenForm.getEndDate());
+        token.setPlatform(tokenForm.getPlatform());
         token.setCreationDate(LocalDateTime.now());
         token.setLastUpdate(LocalDateTime.now());
         token.setUser(this.userDaoRepository.get(tokenForm.getUserId()));
@@ -70,12 +71,9 @@ public class TokenServices extends AbstractServices {
     }
 
     public Token update(int id, TokenForm tokenForm) throws UnknownEntityException, InvalidEntityException {
-        final Token token = this.tokenDaoRepository.get(id);
-        if (token == null) {
-            throw new UnknownEntityException();
-        }
-
+        final Token token = get(id);
         token.setEndDate(tokenForm.getEndDate());
+        token.setPlatform(tokenForm.getPlatform());
         token.setLastUpdate(LocalDateTime.now());
 
         validate(token);
@@ -85,11 +83,6 @@ public class TokenServices extends AbstractServices {
     }
 
     public void delete(int id) throws UnknownEntityException {
-        final Token token = this.tokenDaoRepository.get(id);
-        if (token == null) {
-            throw new UnknownEntityException();
-        }
-
-        this.tokenDaoRepository.delete(token);
+        this.tokenDaoRepository.delete(get(id));
     }
 }
