@@ -101,6 +101,8 @@ echo "Deploying all containers"
 docker-compose up -d mysql-db-container
 sleep 10
 docker-compose up -d cryptowallet-backend-container
+sleep 10
+docker-compose up -d nginx-proxy-container
 echo ""
 
 echo "##############################################################################"
