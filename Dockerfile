@@ -7,5 +7,8 @@ VOLUME /tmp
 # Add JAR application to our container
 ADD target/cryptowallet-backend-*.jar cryptowallet-backend.jar
 
+# Expose port
+EXPOSE 8090
+
 # Launch our application using java -jar xxx.jar
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/cryptowallet-backend.jar"]
