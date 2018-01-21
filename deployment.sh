@@ -56,7 +56,7 @@ echo "Installing Docker"
 apt-get --assume-yes install docker-ce
 echo ""
 
-echo "Displaying installed versions of Docker"
+echo "Listing all installed versions of Docker"
 apt-cache madison docker-ce
 echo ""
 
@@ -69,10 +69,10 @@ rm -f /usr/local/bin/docker-compose
 echo ""
 
 echo "Downloading last version of docker-compose"
-curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 echo ""
 
-echo "Making docker-compose executable"
+echo "Making docker-compose script executable"
 chmod +x /usr/local/bin/docker-compose
 echo ""
 
@@ -90,7 +90,7 @@ echo ""
 
 echo "Deploying all containers"
 docker-compose up -d mysql-db-container
-sleep 20
+sleep 10
 docker-compose up -d cryptowallet-backend-container
 echo ""
 
