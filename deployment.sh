@@ -84,8 +84,17 @@ echo "##########################################################################
 echo "#                             SCRIPTS DEPLOYMENT                             #"
 echo "##############################################################################"
 
-echo "Downloading deployment script"
-curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/docker-compose.yml?token=AMTU8Qp_Zafv9L-5bSawqjgyZxcvuohzks5abZt7wA%3D%3D -o docker-compose.yml
+echo "Creating folders"
+mkdir -p ./config/mysql/docker-entrypoint-initdb.d
+mkdir -p ./data/mysql
+echo ""
+
+echo "Downloading CREATE_ALL.sql"
+curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql?token=AMTU8StN5WZfte3tZsc4sLobvavR7S_Yks5abbHawA%3D%3D -o ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
+echo ""
+
+echo "Downloading docker-compose.yml"
+curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/docker-compose.yml?token=AMTU8UWaO3fULAlb-B8XcqnKtiaXS2Hbks5abd1DwA%3D%3D -o docker-compose.yml
 echo ""
 
 echo "Deploying all containers"
