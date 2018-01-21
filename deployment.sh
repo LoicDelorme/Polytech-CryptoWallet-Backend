@@ -103,6 +103,8 @@ sleep 10
 docker-compose up -d cryptowallet-backend-container
 sleep 10
 docker-compose up -d nginx-proxy-container
+sleep 10
+docker-compose up -d nginx-proxy-companion-container
 echo ""
 
 echo "##############################################################################"
