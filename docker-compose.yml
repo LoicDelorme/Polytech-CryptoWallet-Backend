@@ -9,6 +9,8 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
 
   cryptowallet-backend-container:
     container_name: cryptowallet-backend-container
