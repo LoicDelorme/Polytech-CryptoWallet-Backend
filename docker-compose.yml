@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2.2'
 services:
   mysql-db-container:
     container_name: mysql-db-container
@@ -21,7 +21,7 @@ services:
     environment:
       - VIRTUAL_PORT=8090
       - VIRTUAL_HOST=cryptowallet.loic-delorme.fr
-      - VIRTUAL_PROTO=http
+      - HTTPS_METHOD=noredirect
       - LETSENCRYPT_HOST=cryptowallet.loic-delorme.fr
       - LETSENCRYPT_EMAIL=loic.delorme.pro@gmail.com
 
@@ -31,8 +31,6 @@ services:
       - cryptowallet-backend-container
     image: jwilder/nginx-proxy:alpine
     restart: always
-    environment:
-      - ENABLE_IPV6=true
     ports:
       - "80:80"
       - "443:443"
@@ -45,8 +43,8 @@ services:
   nginx-proxy-companion-container:
     container_name: nginx-proxy-companion-container
     depends_on:
-      - nginx-proxy-container
-    image: jrcs/letsencrypt-nginx-proxy-companion:lates
+      - cryptowallet-backend-container
+    image: jrcs/letsencrypt-nginx-proxy-companion:latest
     volumes:
       - ./config/nginx/certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
