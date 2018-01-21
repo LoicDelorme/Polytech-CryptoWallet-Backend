@@ -3,7 +3,7 @@ USE CryptoWallet;
 INSERT INTO themes VALUES (1, 'Light', now(), now());
 INSERT INTO themes VALUES (2, 'Dark', now(), now());
 
-INSERT INTO currencies VALUES (1, 'Dollar des États-Unis', 'USD', now(), now());
+INSERT INTO currencies VALUES (1, 'Dollar des Etats-Unis', 'USD', now(), now());
 INSERT INTO currencies VALUES (2, 'Euro', 'EUR', now(), now());
 INSERT INTO currencies VALUES (3, 'Franc suisse', 'CHF', now(), now());
 
