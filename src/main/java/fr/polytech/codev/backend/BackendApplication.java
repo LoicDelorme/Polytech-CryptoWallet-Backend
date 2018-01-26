@@ -166,14 +166,14 @@ public class BackendApplication {
         final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
-        javaMailSender.setUsername("my.gmail@gmail.com");
-        javaMailSender.setPassword("password");
+        javaMailSender.setUsername("cryptowallet.alerts@gmail.com");
+        javaMailSender.setPassword("ProjetCODEV");
 
         final Properties properties = javaMailSender.getJavaMailProperties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.debug", "true");
+        properties.put("mail.debug", "false");
 
         return javaMailSender;
     }
