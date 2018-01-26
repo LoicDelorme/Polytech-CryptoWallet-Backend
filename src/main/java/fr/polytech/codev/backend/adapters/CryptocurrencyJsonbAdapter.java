@@ -10,7 +10,7 @@ public class CryptocurrencyJsonbAdapter implements JsonbAdapter<Cryptocurrency, 
 
     @Override
     public JsonObject adaptToJson(Cryptocurrency original) throws Exception {
-        return Json.createObjectBuilder().add("id", original.getId()).add("name", original.getName()).add("symbol", original.getSymbol()).add("imageUrl", original.getImageUrl()).build();
+        return Json.createObjectBuilder().add("id", original.getId()).add("name", original.getName()).add("symbol", original.getSymbol()).add("imageUrl", original.getImageUrl()).add("resourceUrl", original.getResourceUrl()).build();
     }
 
     @Override
