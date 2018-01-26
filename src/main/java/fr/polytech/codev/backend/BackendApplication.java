@@ -7,7 +7,11 @@ import fr.polytech.codev.backend.services.impl.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.Properties;
 
 @SpringBootApplication
 @EnableScheduling
@@ -155,5 +159,22 @@ public class BackendApplication {
     @Bean
     public WalletServices walletServices() {
         return new WalletServices();
+    }
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+        final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost("smtp.gmail.com");
+        javaMailSender.setPort(587);
+        javaMailSender.setUsername("my.gmail@gmail.com");
+        javaMailSender.setPassword("password");
+
+        final Properties properties = javaMailSender.getJavaMailProperties();
+        properties.put("mail.transport.protocol", "smtp");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.debug", "true");
+
+        return javaMailSender;
     }
 }
