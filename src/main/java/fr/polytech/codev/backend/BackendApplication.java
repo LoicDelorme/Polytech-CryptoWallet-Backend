@@ -162,19 +162,24 @@ public class BackendApplication {
     }
 
     @Bean
-    public JavaMailSender javaMailSender() {
-        final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-        javaMailSender.setUsername("cryptowallet.alerts@gmail.com");
-        javaMailSender.setPassword("ProjetCODEV");
+    public CoinMarketCapServices coinMarketCapServices() {
+        return new CoinMarketCapServices();
+    }
 
-        final Properties properties = javaMailSender.getJavaMailProperties();
+    @Bean
+    public JavaMailSender mailSender() {
+        final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("cryptowallet.alerts@gmail.com");
+        mailSender.setPassword("ProjetCODEV");
+
+        final Properties properties = mailSender.getJavaMailProperties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.debug", "false");
 
-        return javaMailSender;
+        return mailSender;
     }
 }
