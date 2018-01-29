@@ -94,7 +94,7 @@ curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Back
 echo ""
 
 echo "Downloading docker-compose.yml"
-curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/docker-compose.yml?token=AMTU8UWaO3fULAlb-B8XcqnKtiaXS2Hbks5abd1DwA%3D%3D -o docker-compose.yml
+curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/docker-compose.yml?token=AMTU8VW0QnbLVbT0g4II37NncOAH_yXHks5aeHvCwA%3D%3D -o docker-compose.yml
 echo ""
 
 echo "Deploying all containers"
