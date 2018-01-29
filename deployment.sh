@@ -90,7 +90,7 @@ mkdir -p ./data/mysql
 echo ""
 
 echo "Downloading CREATE_ALL.sql"
-curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql?token=AMTU8StN5WZfte3tZsc4sLobvavR7S_Yks5abbHawA%3D%3D -o ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
+curl -L https://raw.githubusercontent.com/LoicDelorme/Polytech-CryptoWallet-Backend/master/config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql?token=AMTU8dWkvi3Gu3SGcnx9XycZ8RV3BaB5ks5aeJY3wA%3D%3D -o ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
 echo ""
 
 echo "Downloading docker-compose.yml"
