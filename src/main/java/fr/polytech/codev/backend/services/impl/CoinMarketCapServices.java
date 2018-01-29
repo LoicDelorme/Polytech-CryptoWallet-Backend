@@ -4,7 +4,6 @@ import fr.polytech.codev.backend.requesters.JsonStringRestfulRequester;
 import fr.polytech.codev.backend.requesters.RestfulRequester;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 
 public class CoinMarketCapServices {
@@ -65,43 +64,43 @@ public class CoinMarketCapServices {
 
     public static class GraphsResponse {
 
-        private List<List<BigInteger>> marketCapByAvailableSupply;
+        private List<List<BigDecimal>> marketCapByAvailableSupply;
 
-        private List<List<BigInteger>> priceBtc;
+        private List<List<BigDecimal>> priceBtc;
 
-        private List<List<BigInteger>> priceUsd;
+        private List<List<BigDecimal>> priceUsd;
 
-        private List<List<BigInteger>> volumeUsd;
+        private List<List<BigDecimal>> volumeUsd;
 
-        public List<List<BigInteger>> getMarketCapByAvailableSupply() {
+        public List<List<BigDecimal>> getMarketCapByAvailableSupply() {
             return this.marketCapByAvailableSupply;
         }
 
-        public void setMarket_cap_by_available_supply(List<List<BigInteger>> marketCapByAvailableSupply) {
+        public void setMarket_cap_by_available_supply(List<List<BigDecimal>> marketCapByAvailableSupply) {
             this.marketCapByAvailableSupply = marketCapByAvailableSupply;
         }
 
-        public List<List<BigInteger>> getPriceBtc() {
+        public List<List<BigDecimal>> getPriceBtc() {
             return this.priceBtc;
         }
 
-        public void setPrice_btc(List<List<BigInteger>> priceBtc) {
+        public void setPrice_btc(List<List<BigDecimal>> priceBtc) {
             this.priceBtc = priceBtc;
         }
 
-        public List<List<BigInteger>> getPriceUsd() {
+        public List<List<BigDecimal>> getPriceUsd() {
             return this.priceUsd;
         }
 
-        public void setPrice_usd(List<List<BigInteger>> priceUsd) {
+        public void setPrice_usd(List<List<BigDecimal>> priceUsd) {
             this.priceUsd = priceUsd;
         }
 
-        public List<List<BigInteger>> getVolumeUsd() {
+        public List<List<BigDecimal>> getVolumeUsd() {
             return this.volumeUsd;
         }
 
-        public void setVolume_usd(List<List<BigInteger>> volumeUsd) {
+        public void setVolume_usd(List<List<BigDecimal>> volumeUsd) {
             this.volumeUsd = volumeUsd;
         }
     }
