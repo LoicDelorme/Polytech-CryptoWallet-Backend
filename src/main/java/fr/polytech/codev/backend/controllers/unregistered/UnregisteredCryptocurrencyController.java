@@ -22,7 +22,7 @@ public class UnregisteredCryptocurrencyController extends AbstractController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity get(@PathVariable int id) throws UnknownEntityException {
+    public ResponseEntity get(@PathVariable("id") int id) throws UnknownEntityException {
         return serializeSuccessResponse(this.cryptocurrencyServices.get(id));
     }
 }

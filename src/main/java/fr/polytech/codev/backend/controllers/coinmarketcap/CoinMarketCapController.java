@@ -16,17 +16,17 @@ public class CoinMarketCapController extends AbstractController {
     private CoinMarketCapServices coinMarketCapServices;
 
     @RequestMapping(value = "/graphs/{cryptocurrencyResourceUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity allPrices(@PathVariable String cryptocurrencyResourceUrl) {
+    public ResponseEntity allPrices(@PathVariable("cryptocurrencyResourceUrl") String cryptocurrencyResourceUrl) {
         return serializeSuccessResponse(this.coinMarketCapServices.allPrices(cryptocurrencyResourceUrl));
     }
 
     @RequestMapping(value = "/graphs/{cryptocurrencyResourceUrl}/{startDate}/{endDate}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity allPricesBetween(@PathVariable String cryptocurrencyResourceUrl, @PathVariable String startDate, @PathVariable String endDate) {
+    public ResponseEntity allPricesBetween(@PathVariable("cryptocurrencyResourceUrl") String cryptocurrencyResourceUrl, @PathVariable String startDate, @PathVariable String endDate) {
         return serializeSuccessResponse(this.coinMarketCapServices.allPricesBetween(cryptocurrencyResourceUrl, startDate, endDate));
     }
 
     @RequestMapping(value = "/ticker/{cryptocurrencyResourceUrl}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity getCurrentPrice(@PathVariable String cryptocurrencyResourceUrl) {
+    public ResponseEntity getCurrentPrice(@PathVariable("cryptocurrencyResourceUrl") String cryptocurrencyResourceUrl) {
         return serializeSuccessResponse(this.coinMarketCapServices.getCurrentPrice(cryptocurrencyResourceUrl));
     }
 }

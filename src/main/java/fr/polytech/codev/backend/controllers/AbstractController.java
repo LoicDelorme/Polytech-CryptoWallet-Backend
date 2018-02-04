@@ -101,7 +101,7 @@ public abstract class AbstractController {
         return user;
     }
 
-    protected User assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public User assertUserIsAdministrator(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
