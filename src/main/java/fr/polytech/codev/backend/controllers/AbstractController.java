@@ -90,7 +90,7 @@ public abstract class AbstractController {
         return abstractStringDeserializer.from(data, outputType);
     }
 
-    protected User assertIsUser(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
+    public User assertIsUser(String tokenValue) throws UnknownEntityException, InvalidTokenException, ExpiredTokenException, UnauthorizedUserException {
         final Token token = getToken(tokenValue);
         assertTokenIsValid(token);
         assertUserIsEnabled(token);
