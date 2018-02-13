@@ -12,7 +12,7 @@ before_install:
  - mysql -u root < ./config/mysql/docker-entrypoint-initdb.d/CREATE_ALL.sql
 
 script:
- - mvn package
+ - mvn package -q
 
 after_success:
  - if [ "$TRAVIS_BRANCH" == "master" ]; then
